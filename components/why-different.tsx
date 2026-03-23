@@ -42,7 +42,7 @@ export function WhyDifferent() {
               Coach Ratio
             </h3>
             <p className="text-apollo-muted text-sm leading-relaxed">
-              Expert eyes on your form, every rep. Ed and Alex programme and coach every session — no freelancers, no randoms.
+              Expert eyes on your form, every rep. Alex and Alex programme and coach every session — no freelancers, no randoms.
             </p>
           </div>
 
