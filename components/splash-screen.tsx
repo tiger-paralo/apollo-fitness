@@ -15,8 +15,9 @@ import { motion, AnimatePresence } from 'motion/react'
  */
 
 export function SplashScreen({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [isVisible, setIsVisible] = useState(true)
+  const hasSeenSplash = typeof window !== 'undefined' && sessionStorage.getItem('apollo_splash_seen') === '1'
+  const [isLoading, setIsLoading] = useState(!hasSeenSplash)
+  const [isVisible, setIsVisible] = useState(!hasSeenSplash)
   const startTime = useRef(Date.now())
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
       const remaining = Math.max(0, MIN_DISPLAY - elapsed)
       setTimeout(() => {
         setIsLoading(false)
+        sessionStorage.setItem('apollo_splash_seen', '1')
         // Allow exit animation to play before removing from DOM
         setTimeout(() => setIsVisible(false), 600)
       }, remaining)
