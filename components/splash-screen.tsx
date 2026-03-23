@@ -87,7 +87,7 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/apollo-icon-splash.jpg"
+                src="/images/apollo-icon.png"
                 alt=""
                 width={160}
                 height={160}
