@@ -23,7 +23,7 @@ const stats: StatConfig[] = [
     spotlightColor: 'rgba(87, 181, 160, 0.1)',
   },
   {
-    value: 2,
+    value: 1,
     suffix: ':8',
     label: 'Coach Ratio',
     description:
