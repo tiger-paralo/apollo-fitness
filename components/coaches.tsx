@@ -8,7 +8,7 @@ const coaches = [
     name: 'Alex',
     tagline: 'The Programmer',
     role: 'Co-Founder & Head Coach',
-    image: '/images/ed-pic.png',
+    image: '/images/alex-poon.jpg',
     alt: 'Coach Alex — The Programmer at Apollo Fitness Studio',
     accent: 'text-apollo-teal',
     bio: 'The engine behind Apollo\'s programming. Alex designs every WOD and S&C session with one goal: making you stronger than yesterday. Functional fitness obsessed, Hyrox competitor, and firm believer that the best results come from consistent effort — not shortcuts.'
