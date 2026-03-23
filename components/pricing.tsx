@@ -114,7 +114,7 @@ export function Pricing() {
         </motion.div>
 
         {/* Tier cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch pt-4">
           {tiers.map((tier, i) => {
             const styles = accentStyles[tier.accent]
             return (
@@ -123,13 +123,11 @@ export function Pricing() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                 transition={{ duration: 0.5, delay: i * 0.1 }}
-                className={`relative bg-apollo-card border ${styles.border} ${styles.borderHover} p-6 transition-all duration-300 group ${
-                  tier.popular ? 'md:-mt-2 md:mb-0 md:pb-8' : ''
-                }`}
+                className={`relative flex flex-col bg-apollo-card border ${styles.border} ${styles.borderHover} p-6 pt-8 transition-all duration-300 group`}
               >
                 {tier.popular && (
-                  <div className="absolute -top-3 left-6">
-                    <span className={`${styles.badge} text-[10px] font-display font-bold uppercase tracking-widest px-3 py-1`}>
+                  <div className="absolute top-0 left-6 -translate-y-1/2">
+                    <span className={`${styles.badge} text-[10px] font-display font-bold uppercase tracking-widest px-3 py-1 inline-block`}>
                       Most Popular
                     </span>
                   </div>
@@ -153,7 +151,7 @@ export function Pricing() {
                   </span>
                 </div>
 
-                <ul className="space-y-2 mb-6">
+                <ul className="space-y-2 mb-6 flex-1">
                   {tier.features.map((feature, fi) => (
                     <li key={fi} className="flex items-start gap-2 text-xs text-apollo-muted">
                       <div className={`w-1.5 h-1.5 rounded-full mt-1 shrink-0 ${styles.dot}`} />
@@ -166,7 +164,7 @@ export function Pricing() {
                   href={tier.teamUpUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`block w-full text-center py-2.5 font-display font-bold text-xs tracking-wide uppercase text-white transition-all duration-300 ${styles.btn}`}
+                  className={`block w-full text-center py-2.5 font-display font-bold text-xs tracking-wide uppercase text-white transition-all duration-300 ${styles.btn} mt-auto`}
                 >
                   Get Started →
                 </Link>
