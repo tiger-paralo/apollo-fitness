@@ -66,13 +66,13 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
       transition={{ duration: 0.7, delay: index * 0.2 }}
     >
       {/* Image */}
-      <div className={`${isReversed ? 'md:col-start-5 md:col-span-8 md:order-2' : 'md:col-span-8'} relative aspect-[4/5] md:aspect-[3/4] overflow-hidden`}>
+      <div className={`${isReversed ? 'md:col-start-5 md:col-span-8 md:order-2' : 'md:col-span-8'} relative aspect-[3/4] md:aspect-[4/3] overflow-hidden`}>
         <motion.div className="absolute inset-0" style={{ y: imageY }}>
           <Image
             src={coach.image}
             alt={coach.alt}
             fill
-            className="object-cover object-top"
+            className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, 66vw"
           />
         </motion.div>

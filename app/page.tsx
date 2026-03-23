@@ -10,6 +10,7 @@ import { TrialForm } from "@/components/trial-form";
 import { InstagramFeed } from "@/components/instagram-feed";
 import { Footer } from "@/components/footer";
 import { MobileCTA } from "@/components/mobile-cta";
+import { WhatsAppFloat } from "@/components/whatsapp-float";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
@@ -43,6 +44,7 @@ export default function HomePage(): ReactNode {
       </main>
       <Footer />
       <MobileCTA />
+      <WhatsAppFloat />
     </>
   );
 }
