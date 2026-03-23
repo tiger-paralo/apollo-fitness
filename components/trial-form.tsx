@@ -184,7 +184,7 @@ export function TrialForm() {
                           </label>
                           <input
                             type="text"
-                            autoFocus
+                            
                             value={formData.name}
                             onChange={e => update('name', e.target.value)}
                             placeholder="Your name"
@@ -217,7 +217,7 @@ export function TrialForm() {
                           </label>
                           <input
                             type="email"
-                            autoFocus
+                            
                             value={formData.email}
                             onChange={e => update('email', e.target.value)}
                             placeholder="you@email.com"
