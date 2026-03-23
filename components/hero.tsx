@@ -77,8 +77,8 @@ export function Hero() {
           style={{ y: imageY, scale: imageScale }}
         >
           <Image
-            src="/images/facility.webp"
-            alt="Apollo Fitness Studio — Training floor"
+            src="/images/hero-studio.jpg"
+            alt="Apollo Fitness Studio — Training floor with Concept 2 rowers"
             fill
             className="object-cover object-center"
             priority
