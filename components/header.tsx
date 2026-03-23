@@ -2,12 +2,21 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { motion } from 'motion/react'
+
+const scrollToTrial = () => {
+  const t = document.getElementById('trial')
+  if (t) {
+    const y = t.getBoundingClientRect().top + window.scrollY - 70
+    window.scrollTo({ top: y, behavior: 'smooth' })
+  }
+}
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,25 +26,24 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Lock body scroll when menu is open
+  // Lock body scroll when menu is open — use class toggle instead of direct style
   useEffect(() => {
     if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
+      document.documentElement.classList.add('overflow-hidden')
     } else {
-      document.body.style.overflow = ''
+      document.documentElement.classList.remove('overflow-hidden')
     }
-    return () => { document.body.style.overflow = '' }
+    return () => { document.documentElement.classList.remove('overflow-hidden') }
   }, [mobileMenuOpen])
 
   const scrollToSection = useCallback((sectionId: string) => {
     setMobileMenuOpen(false)
-    // Small delay so the overlay closes before scroll
     setTimeout(() => {
       const section = document.getElementById(sectionId)
       if (section) {
         section.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
-    }, 300)
+    }, 150)
   }, [])
 
   const navItems = [
@@ -50,7 +58,7 @@ export function Header() {
   return (
     <>
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled || mobileMenuOpen
             ? 'bg-apollo-black/95 backdrop-blur-xl border-b border-white/5 py-2'
             : 'py-4'
@@ -59,7 +67,7 @@ export function Header() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        {/* Fog gradient beneath nav — extended blur zone */}
+        {/* Fog gradient beneath nav */}
         <div
           className={`absolute inset-x-0 -bottom-24 h-24 pointer-events-none transition-opacity duration-500 ${
             isScrolled ? 'opacity-100' : 'opacity-0'
@@ -104,7 +112,8 @@ export function Header() {
             {/* CTA Button — Desktop */}
             <div className="hidden md:block">
               <Link
-                href="#trial" onClick={(e) => { e.preventDefault(); (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })() }}
+                href="#trial"
+                onClick={(e) => { e.preventDefault(); scrollToTrial() }}
                 className="group relative inline-flex items-center justify-center px-6 py-2.5 bg-apollo-orange text-apollo-text font-display font-bold text-xs tracking-wide uppercase overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-apollo-orange/30"
               >
                 <span className="relative z-10">Book Free Trial</span>
@@ -126,77 +135,66 @@ export function Header() {
         </div>
       </motion.header>
 
-      {/* Full-screen mobile menu overlay */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div
-            className="fixed inset-0 z-40 md:hidden bg-apollo-black flex flex-col"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            {/* Subtle background accent */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-              <div className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-apollo-orange/[0.03] rounded-full blur-3xl" />
-              <div className="absolute -bottom-1/4 -left-1/4 w-[400px] h-[400px] bg-apollo-teal/[0.03] rounded-full blur-3xl" />
-            </div>
-
-            {/* Nav items — centered vertically */}
-            <nav className="flex-1 flex flex-col items-center justify-center gap-1 px-8">
-              {navItems.map((item, i) => (
-                <motion.button
-                  key={item.section}
-                  onClick={() => scrollToSection(item.section)}
-                  className="group py-3 w-full text-center"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
-                >
-                  <span className="font-display font-bold text-2xl tracking-wide uppercase text-white/80 group-hover:text-apollo-orange transition-colors duration-300">
-                    {item.label}
-                  </span>
-                </motion.button>
-              ))}
-
-              {/* CTA in menu */}
-              <motion.div
-                className="mt-8 w-full max-w-xs"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ delay: 0.1 + navItems.length * 0.06 + 0.05, duration: 0.4 }}
-              >
-                <Link
-                  href="#trial"
-                  onClick={(e) => { e.preventDefault(); setMobileMenuOpen(false); (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })() }}
-                  className="block w-full text-center py-3.5 bg-apollo-orange text-white font-display font-bold text-sm tracking-wide uppercase transition-all duration-300 active:scale-95"
-                >
-                  Book Free Trial
-                </Link>
-              </motion.div>
-            </nav>
-
-            {/* Bottom contact line */}
-            <motion.div
-              className="pb-10 pt-4 text-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
+      {/* Full-screen mobile menu — pure CSS, no AnimatePresence */}
+      <div
+        ref={menuRef}
+        className={`fixed inset-0 z-40 md:hidden bg-apollo-black flex flex-col transition-all duration-300 ${
+          mobileMenuOpen
+            ? 'opacity-100 visible'
+            : 'opacity-0 invisible'
+        }`}
+      >
+        {/* Nav items — centered vertically */}
+        <nav className="flex-1 flex flex-col items-center justify-center gap-1 px-8">
+          {navItems.map((item, i) => (
+            <button
+              key={item.section}
+              onClick={() => scrollToSection(item.section)}
+              className="py-3 w-full text-center active:bg-white/5 transition-colors duration-150"
+              style={{
+                transitionDelay: mobileMenuOpen ? `${50 + i * 30}ms` : '0ms',
+                opacity: mobileMenuOpen ? 1 : 0,
+                transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(8px)',
+                transition: 'opacity 200ms, transform 200ms, background-color 150ms',
+              }}
             >
-              <a
-                href="https://wa.me/447521216772"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-xs font-display tracking-wider uppercase text-apollo-muted hover:text-apollo-teal transition-colors"
-              >
-                WhatsApp Us →
-              </a>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <span className="font-display font-bold text-2xl tracking-wide uppercase text-white/80">
+                {item.label}
+              </span>
+            </button>
+          ))}
+
+          {/* CTA in menu */}
+          <div
+            className="mt-8 w-full max-w-xs"
+            style={{
+              transitionDelay: mobileMenuOpen ? `${50 + navItems.length * 30}ms` : '0ms',
+              opacity: mobileMenuOpen ? 1 : 0,
+              transform: mobileMenuOpen ? 'translateY(0)' : 'translateY(8px)',
+              transition: 'opacity 200ms, transform 200ms',
+            }}
+          >
+            <button
+              onClick={() => { setMobileMenuOpen(false); setTimeout(scrollToTrial, 150) }}
+              className="block w-full text-center py-3.5 bg-apollo-orange text-white font-display font-bold text-sm tracking-wide uppercase active:scale-95 transition-transform duration-150"
+            >
+              Book Free Trial
+            </button>
+          </div>
+        </nav>
+
+        {/* Bottom contact line */}
+        <div className="pb-10 pt-4 text-center">
+          <a
+            href="https://wa.me/447521216772"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-display tracking-wider uppercase text-apollo-muted"
+          >
+            WhatsApp Us →
+          </a>
+        </div>
+      </div>
     </>
   )
 }
