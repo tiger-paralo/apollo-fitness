@@ -5,17 +5,21 @@ import { useReveal } from '@/hooks/useReveal'
 
 const coaches = [
   {
-    name: 'Ed',
+    name: 'Alex',
+    tagline: 'The Programmer',
     role: 'Co-Founder & Head Coach',
     image: '/images/ed-pic.png',
-    alt: 'Coach Ed at Apollo Fitness Studio',
-    bio: 'The engine behind Apollo\'s programming. Ed designs every WOD and S&C session with one goal: making you stronger than yesterday. Functional fitness obsessed, Hyrox competitor, and firm believer that the best results come from consistent effort — not shortcuts.'
+    alt: 'Coach Alex — The Programmer at Apollo Fitness Studio',
+    accent: 'text-apollo-teal',
+    bio: 'The engine behind Apollo\'s programming. Alex designs every WOD and S&C session with one goal: making you stronger than yesterday. Functional fitness obsessed, Hyrox competitor, and firm believer that the best results come from consistent effort — not shortcuts.'
   },
   {
-    name: 'Alex', 
+    name: 'Alex',
+    tagline: 'The Engine',
     role: 'Co-Founder & Coach',
     image: '/images/alex-pic.png',
-    alt: 'Coach Alex at Apollo Fitness Studio',
+    alt: 'Coach Alex — The Engine at Apollo Fitness Studio',
+    accent: 'text-apollo-orange',
     bio: 'Alex brings the energy and the precision. With a sharp eye for form and a coaching style that pushes you just far enough, Alex makes sure nobody phones it in — and nobody gets left behind. Your biggest cheerleader and your strictest critic, in the best way.'
   }
 ]
@@ -40,7 +44,7 @@ export function Coaches() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {coaches.map((coach, index) => (
             <div 
-              key={coach.name}
+              key={coach.tagline}
               className="group grid grid-cols-1 sm:grid-cols-2 border border-white/10 overflow-hidden bg-apollo-card transition-colors duration-400 hover:border-white/20 reveal"
               style={{ transitionDelay: `${(index + 1) * 0.1}s` }}
             >
@@ -57,13 +61,13 @@ export function Coaches() {
 
               {/* Info */}
               <div className="p-8 flex flex-col justify-center">
-                <span className="font-display font-medium text-xs tracking-widest uppercase text-apollo-teal mb-3">
-                  Coach
+                <span className={`font-display font-bold text-xs tracking-widest uppercase ${coach.accent} mb-3`}>
+                  {coach.tagline}
                 </span>
                 <h3 className="font-display font-bold text-3xl uppercase mb-2">
-                  {coach.name}
+                  Coach {coach.name}
                 </h3>
-                <div className="font-display text-sm tracking-wide uppercase text-apollo-teal mb-5">
+                <div className="font-display text-sm tracking-wide uppercase text-apollo-muted mb-5">
                   {coach.role}
                 </div>
                 <p className="text-apollo-muted text-sm leading-relaxed">

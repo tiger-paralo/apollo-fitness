@@ -1,6 +1,9 @@
 'use client'
 
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+const SilkWaves = dynamic(() => import('@/components/react-bits/silk-waves'), { ssr: false })
 
 export function Hero() {
   const scrollToPrograms = () => {
@@ -12,27 +15,39 @@ export function Hero() {
 
   return (
     <section className="hero relative min-h-screen flex items-center overflow-hidden">
-      {/* Video Background */}
-      <div className="absolute inset-0 z-0">
+      {/* Video Background — Mobile only */}
+      <div className="absolute inset-0 z-0 md:hidden">
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-apollo-black/40 via-apollo-black/60 to-apollo-black/95" />
         <iframe
           src="https://player.vimeo.com/video/1101338417?h=cc9df9cc81&background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
           frameBorder="0"
           allow="autoplay; fullscreen"
           allowFullScreen
-          className="absolute top-1/2 left-1/2 w-[177.78vh] min-w-full h-screen min-h-[56.25vw] transform -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        />
-        
-        {/* Noise overlay */}
-        <div 
-          className="absolute inset-0 z-20 opacity-[0.03] pointer-events-none"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
-            backgroundRepeat: 'repeat',
-            backgroundSize: '256px 256px'
-          }}
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-auto min-w-full h-full object-cover pointer-events-none"
+          style={{ aspectRatio: '9/16' }}
         />
       </div>
+
+      {/* Silk Waves Background — Desktop only */}
+      <div className="absolute inset-0 z-0 hidden md:block">
+        <SilkWaves
+          speed={3}
+          scale={1.5}
+          colors={['#0A0A0A', '#1a2a25', '#57B5A0', '#0A0A0A', '#2a1a10', '#FF6B35']}
+          opacity={0.6}
+        />
+        <div className="absolute inset-0 z-10 bg-gradient-to-r from-apollo-black/80 via-apollo-black/50 to-apollo-black/70" />
+      </div>
+
+      {/* Noise overlay */}
+      <div 
+        className="absolute inset-0 z-20 opacity-[0.03] pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat',
+          backgroundSize: '256px 256px'
+        }}
+      />
 
       {/* Content */}
       <div className="container mx-auto max-w-6xl px-6 relative z-30">
@@ -41,7 +56,7 @@ export function Hero() {
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-px bg-apollo-teal" />
             <span className="font-display font-medium text-xs tracking-widest uppercase text-apollo-teal">
-              Maidenhead's Boutique Fitness Studio
+              Maidenhead&apos;s Boutique Fitness Studio
             </span>
           </div>
 

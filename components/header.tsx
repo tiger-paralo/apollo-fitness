@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react'
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,6 +18,7 @@ export function Header() {
   }, [])
 
   const scrollToSection = (sectionId: string) => {
+    setMobileMenuOpen(false)
     const section = document.getElementById(sectionId)
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -31,24 +33,19 @@ export function Header() {
     }`}>
       <div className="container mx-auto max-w-6xl px-6">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="#" className="flex items-center gap-3">
-            <div className="relative w-10 h-10 rounded-md overflow-hidden">
-              <Image
-                src="/images/apollo-logo.jpg"
-                alt="Apollo Fitness Studio"
-                fill
-                className="object-cover"
-                sizes="40px"
-                priority
-              />
-            </div>
-            <span className="font-display font-bold text-lg tracking-wider uppercase">
-              Apollo
-            </span>
+          {/* Logo — wide wordmark, no extra text */}
+          <Link href="#" className="flex items-center">
+            <Image
+              src="/images/apollo-logo.jpg"
+              alt="Apollo Fitness Studio"
+              width={180}
+              height={102}
+              className="h-10 w-auto md:h-12"
+              priority
+            />
           </Link>
 
-          {/* Navigation */}
+          {/* Navigation — Desktop */}
           <nav className="hidden md:flex items-center gap-10">
             <button
               onClick={() => scrollToSection('why')}
@@ -76,7 +73,7 @@ export function Header() {
             </button>
           </nav>
 
-          {/* CTA Button */}
+          {/* CTA Button — Desktop */}
           <div className="hidden md:block">
             <Link
               href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
@@ -85,7 +82,28 @@ export function Header() {
               Book Free Trial
             </Link>
           </div>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden flex flex-col gap-1.5 p-2"
+            aria-label="Toggle menu"
+          >
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <nav className="md:hidden mt-4 pb-4 border-t border-white/10 pt-4 flex flex-col gap-4">
+            <button onClick={() => scrollToSection('why')} className="font-medium text-sm tracking-wider uppercase text-apollo-muted hover:text-apollo-text text-left">Why Apollo</button>
+            <button onClick={() => scrollToSection('programs')} className="font-medium text-sm tracking-wider uppercase text-apollo-muted hover:text-apollo-text text-left">Programs</button>
+            <button onClick={() => scrollToSection('coaches')} className="font-medium text-sm tracking-wider uppercase text-apollo-muted hover:text-apollo-text text-left">Coaches</button>
+            <button onClick={() => scrollToSection('schedule')} className="font-medium text-sm tracking-wider uppercase text-apollo-muted hover:text-apollo-text text-left">Schedule</button>
+          </nav>
+        )}
       </div>
     </header>
   )
