@@ -12,6 +12,9 @@ export function useReveal() {
     const reveals = el.querySelectorAll('.reveal')
     if (reveals.length === 0) return
 
+    // Mark section as JS-ready so CSS can safely hide .reveal elements
+    el.classList.add('reveal-ready')
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
