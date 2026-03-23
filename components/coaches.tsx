@@ -4,15 +4,36 @@ import Image from 'next/image'
 import { useRef } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'motion/react'
 
-const coaches = [
+interface CoachStat {
+  value: string
+  label: string
+}
+
+interface Coach {
+  name: string
+  tagline: string
+  role: string
+  image: string
+  alt: string
+  accent: 'apollo-teal' | 'apollo-orange'
+  bio: string
+  stats?: CoachStat[]
+}
+
+const coaches: Coach[] = [
   {
-    name: 'Alex',
+    name: 'Alex Poon',
     tagline: 'The Programmer',
-    role: 'Co-Founder & Head Coach',
+    role: 'Owner & Head Coach',
     image: '/images/alex-poon.jpg',
-    alt: 'Coach Alex — The Programmer at Apollo Fitness Studio',
+    alt: 'Alex Poon — Owner & Head Coach at Apollo Fitness Studio',
     accent: 'apollo-teal',
-    bio: 'The engine behind Apollo\'s programming. Alex designs every WOD and S&C session with one goal: making you stronger than yesterday. Functional fitness obsessed, Hyrox competitor, and firm believer that the best results come from consistent effort — not shortcuts.'
+    bio: 'Alex is the owner and head coach at Apollo Fitness Studio. With over 7 years in the fitness industry — working as a Personal Trainer, Regional Master Trainer, and Gym Manager within high-end commercial gyms — his expertise lies in small group personal training, strength & conditioning, and functional fitness for all ages.\n\nHe designed and led a successful small group PT programme that rolled out across 50+ UK gym locations. Before stepping into fitness full-time, Alex spent 17 years as a professional street dancer and teacher — movement, body awareness, and performance have always been part of his DNA.',
+    stats: [
+      { value: '7+', label: 'Years in Fitness' },
+      { value: '17', label: 'Years Street Dancing' },
+      { value: '50+', label: 'UK Gym Locations' },
+    ],
   },
   {
     name: 'Alex',
@@ -21,11 +42,11 @@ const coaches = [
     image: '/images/alex-pic.png',
     alt: 'Coach Alex — The Engine at Apollo Fitness Studio',
     accent: 'apollo-orange',
-    bio: 'Alex brings the energy and the precision. With a sharp eye for form and a coaching style that pushes you just far enough, Alex makes sure nobody phones it in — and nobody gets left behind. Your biggest cheerleader and your strictest critic, in the best way.'
+    bio: 'Alex brings the energy and the precision. With a sharp eye for form and a coaching style that pushes you just far enough, Alex makes sure nobody phones it in — and nobody gets left behind. Your biggest cheerleader and your strictest critic, in the best way.',
   }
 ]
 
-function CoachCard({ coach, index }: { coach: typeof coaches[0]; index: number }) {
+function CoachCard({ coach, index }: { coach: Coach; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(cardRef, { once: true, margin: '-80px' })
   const { scrollYProgress } = useScroll({
@@ -34,11 +55,12 @@ function CoachCard({ coach, index }: { coach: typeof coaches[0]; index: number }
   })
   const imageY = useTransform(scrollYProgress, [0, 1], [20, -20])
   const isReversed = index % 2 !== 0
+  const isTeal = coach.accent === 'apollo-teal'
 
   return (
     <motion.div
       ref={cardRef}
-      className={`grid grid-cols-1 md:grid-cols-12 gap-0 items-stretch ${isReversed ? '' : ''}`}
+      className="grid grid-cols-1 md:grid-cols-12 gap-0 items-stretch"
       initial={{ opacity: 0, y: 60 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
       transition={{ duration: 0.7, delay: index * 0.2 }}
@@ -60,7 +82,7 @@ function CoachCard({ coach, index }: { coach: typeof coaches[0]; index: number }
 
         {/* Mobile tagline */}
         <div className="absolute bottom-4 left-4 md:hidden">
-          <span className={`inline-block px-3 py-1.5 bg-${coach.accent}/20 text-${coach.accent} font-display font-bold text-xs tracking-widest uppercase border border-${coach.accent}/30`}>
+          <span className={`inline-block px-3 py-1.5 ${isTeal ? 'bg-apollo-teal/20 text-apollo-teal border-apollo-teal/30' : 'bg-apollo-orange/20 text-apollo-orange border-apollo-orange/30'} font-display font-bold text-xs tracking-widest uppercase border`}>
             {coach.tagline}
           </span>
         </div>
@@ -68,10 +90,10 @@ function CoachCard({ coach, index }: { coach: typeof coaches[0]; index: number }
 
       {/* Content */}
       <div className={`${isReversed ? 'md:col-start-1 md:col-span-5 md:order-1 md:pr-12' : 'md:col-span-4 md:pl-0'} flex flex-col justify-center py-8 md:py-0 ${isReversed ? '' : 'md:-ml-16 relative z-10'}`}>
-        <div className={`${isReversed ? '' : 'md:bg-apollo-black/90 md:backdrop-blur-sm md:p-10'}`}>
+        <div className={isReversed ? '' : 'md:bg-apollo-black/90 md:backdrop-blur-sm md:p-10'}>
           {/* Desktop tagline */}
           <motion.span
-            className={`hidden md:inline-block px-3 py-1.5 bg-${coach.accent}/10 text-${coach.accent} font-display font-bold text-xs tracking-widest uppercase mb-4 border border-${coach.accent}/20`}
+            className={`hidden md:inline-block px-3 py-1.5 ${isTeal ? 'bg-apollo-teal/10 text-apollo-teal border-apollo-teal/20' : 'bg-apollo-orange/10 text-apollo-orange border-apollo-orange/20'} font-display font-bold text-xs tracking-widest uppercase mb-4 border`}
             initial={{ opacity: 0, x: isReversed ? 20 : -20 }}
             animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isReversed ? 20 : -20 }}
             transition={{ duration: 0.5, delay: 0.3 }}
@@ -85,7 +107,7 @@ function CoachCard({ coach, index }: { coach: typeof coaches[0]; index: number }
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
             transition={{ duration: 0.5, delay: 0.35 }}
           >
-            Coach {coach.name}
+            {coach.name.includes(' ') ? coach.name : `Coach ${coach.name}`}
           </motion.h3>
 
           <motion.div
@@ -98,21 +120,46 @@ function CoachCard({ coach, index }: { coach: typeof coaches[0]; index: number }
           </motion.div>
 
           <motion.div
-            className={`w-12 h-px bg-${coach.accent} mb-5`}
+            className={`w-12 h-px ${isTeal ? 'bg-apollo-teal' : 'bg-apollo-orange'} mb-5`}
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
             style={{ transformOrigin: 'left' }}
           />
 
-          <motion.p
-            className="text-apollo-muted text-base leading-relaxed"
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-          >
-            {coach.bio}
-          </motion.p>
+          {/* Stats row (Alex Poon) */}
+          {coach.stats && (
+            <motion.div
+              className="flex gap-5 mb-5"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.48 }}
+            >
+              {coach.stats.map((stat, si) => (
+                <div key={si} className="text-center">
+                  <div className={`font-stat text-2xl md:text-3xl leading-none ${isTeal ? 'text-apollo-teal' : 'text-apollo-orange'}`}>
+                    {stat.value}
+                  </div>
+                  <div className="text-[9px] md:text-[10px] font-display font-medium uppercase tracking-widest text-apollo-muted mt-1">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </motion.div>
+          )}
+
+          {/* Bio — split on newlines for readability */}
+          {coach.bio.split('\n\n').map((paragraph, pi) => (
+            <motion.p
+              key={pi}
+              className={`text-apollo-muted text-sm md:text-base leading-relaxed ${pi > 0 ? 'mt-3' : ''}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.5 + pi * 0.08 }}
+            >
+              {paragraph}
+            </motion.p>
+          ))}
         </div>
       </div>
     </motion.div>

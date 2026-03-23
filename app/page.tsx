@@ -5,6 +5,9 @@ import { Marquee } from "@/components/marquee";
 import { Programs } from "@/components/programs";
 import { Coaches } from "@/components/coaches";
 import { Schedule } from "@/components/schedule";
+import { Pricing } from "@/components/pricing";
+import { TrialForm } from "@/components/trial-form";
+import { InstagramFeed } from "@/components/instagram-feed";
 import { Footer } from "@/components/footer";
 import { MobileCTA } from "@/components/mobile-cta";
 import type { Metadata } from "next";
@@ -34,6 +37,9 @@ export default function HomePage(): ReactNode {
         <Programs />
         <Coaches />
         <Schedule />
+        <Pricing />
+        <TrialForm />
+        <InstagramFeed />
       </main>
       <Footer />
       <MobileCTA />

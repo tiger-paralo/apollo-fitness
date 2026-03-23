@@ -31,6 +31,7 @@ export function Header() {
     { label: 'Programs', section: 'programs' },
     { label: 'Coaches', section: 'coaches' },
     { label: 'Schedule', section: 'schedule' },
+    { label: 'Pricing', section: 'pricing' },
   ]
 
   return (

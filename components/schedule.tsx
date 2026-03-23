@@ -58,7 +58,7 @@ const schedule: DaySchedule[] = [
   {
     day: 'Thursday',
     shortDay: 'THU',
-    subtitle: 'HYROX',
+    subtitle: 'HYROX DAY',
     classes: [
       { time: '7:15', type: 'WOD' },
       { time: '8:15', type: 'WOD' },
@@ -87,12 +87,14 @@ const schedule: DaySchedule[] = [
   },
 ]
 
-const classTypeConfig: Record<ClassType, { bg: string; text: string; dot: string }> = {
-  'WOD': { bg: 'bg-apollo-orange/15', text: 'text-apollo-orange', dot: 'bg-apollo-orange' },
-  'S&C': { bg: 'bg-apollo-teal/15', text: 'text-apollo-teal', dot: 'bg-apollo-teal' },
-  'Pilates': { bg: 'bg-purple-500/15', text: 'text-purple-400', dot: 'bg-purple-400' },
-  'Yoga': { bg: 'bg-indigo-500/15', text: 'text-indigo-400', dot: 'bg-indigo-400' },
+const classTypeConfig: Record<ClassType, { bg: string; text: string; dot: string; border: string }> = {
+  'WOD': { bg: 'bg-apollo-orange/15', text: 'text-apollo-orange', dot: 'bg-apollo-orange', border: 'border-apollo-orange/30' },
+  'S&C': { bg: 'bg-apollo-teal/15', text: 'text-apollo-teal', dot: 'bg-apollo-teal', border: 'border-apollo-teal/30' },
+  'Pilates': { bg: 'bg-purple-500/15', text: 'text-purple-400', dot: 'bg-purple-400', border: 'border-purple-400/30' },
+  'Yoga': { bg: 'bg-indigo-500/15', text: 'text-indigo-400', dot: 'bg-indigo-400', border: 'border-indigo-400/30' },
 }
+
+const allTypes: ClassType[] = ['WOD', 'S&C', 'Pilates', 'Yoga']
 
 function getTodayIndex(): number {
   const day = new Date().getDay()
@@ -106,10 +108,15 @@ export function Schedule() {
   const todayIndex = getTodayIndex()
 
   const [selectedDay, setSelectedDay] = useState<number>(todayIndex >= 0 ? todayIndex : 0)
+  const [activeFilter, setActiveFilter] = useState<ClassType | null>(null)
 
   const currentClasses = useMemo(() => {
-    return schedule[selectedDay]?.classes ?? []
-  }, [selectedDay])
+    const classes = schedule[selectedDay]?.classes ?? []
+    if (!activeFilter) return classes
+    return classes.filter(c => c.type === activeFilter)
+  }, [selectedDay, activeFilter])
+
+  const selectedSchedule = schedule[selectedDay]
 
   return (
     <section
@@ -143,7 +150,7 @@ export function Schedule() {
           </div>
 
           {/* Day tabs — compact horizontal bar */}
-          <div className="flex gap-0 mb-4 overflow-x-auto scrollbar-hide border-b border-white/10">
+          <div className="flex gap-0 mb-3 overflow-x-auto scrollbar-hide border-b border-white/10">
             {schedule.map((day, idx) => (
               <button
                 key={day.day}
@@ -155,11 +162,6 @@ export function Schedule() {
                 }`}
               >
                 {day.shortDay}
-                {day.subtitle && (
-                  <span className="text-[9px] text-apollo-orange font-medium tracking-normal">
-                    {day.subtitle}
-                  </span>
-                )}
                 {idx === todayIndex && (
                   <div className="w-1.5 h-1.5 bg-apollo-teal rounded-full" />
                 )}
@@ -167,48 +169,89 @@ export function Schedule() {
             ))}
           </div>
 
-          {/* Classes — compact pill grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2">
-            <AnimatePresence mode="popLayout">
-              {currentClasses.map((cls, i) => {
-                const config = classTypeConfig[cls.type]
-                return (
-                  <motion.div
-                    key={`${selectedDay}-${cls.time}-${cls.type}`}
-                    layout
-                    initial={{ opacity: 0, scale: 0.92 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.92 }}
-                    transition={{ duration: 0.2, delay: i * 0.02 }}
-                    className={`${config.bg} px-3 py-2 flex items-center gap-2 hover:scale-[1.03] transition-transform duration-150 cursor-default`}
-                  >
-                    <div className={`w-1.5 h-1.5 rounded-full shrink-0 ${config.dot}`} />
-                    <span className="font-stat text-base text-white leading-none">
-                      {cls.time}
-                    </span>
-                    <span className={`text-[10px] font-display font-bold uppercase tracking-wider ${config.text}`}>
-                      {cls.type}
-                    </span>
-                    {cls.note && (
-                      <span className="text-[9px] text-apollo-muted ml-auto hidden sm:inline">
-                        {cls.note}
-                      </span>
-                    )}
-                  </motion.div>
-                )
-              })}
-            </AnimatePresence>
+          {/* Filter pills + day subtitle */}
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <button
+              onClick={() => setActiveFilter(null)}
+              className={`px-3 py-1 text-[10px] font-display font-bold uppercase tracking-wider transition-all duration-200 border ${
+                activeFilter === null
+                  ? 'bg-white/10 border-white/20 text-white'
+                  : 'border-white/5 text-apollo-muted hover:text-white hover:border-white/10'
+              }`}
+            >
+              All
+            </button>
+            {allTypes.map(type => {
+              const config = classTypeConfig[type]
+              const hasClasses = (schedule[selectedDay]?.classes ?? []).some(c => c.type === type)
+              if (!hasClasses) return null
+              return (
+                <button
+                  key={type}
+                  onClick={() => setActiveFilter(activeFilter === type ? null : type)}
+                  className={`flex items-center gap-1.5 px-3 py-1 text-[10px] font-display font-bold uppercase tracking-wider transition-all duration-200 border ${
+                    activeFilter === type
+                      ? `${config.bg} ${config.border} ${config.text}`
+                      : `border-white/5 text-apollo-muted hover:${config.text} hover:border-white/10`
+                  }`}
+                >
+                  <div className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
+                  {type}
+                </button>
+              )
+            })}
+            {selectedSchedule?.subtitle && (
+              <span className="ml-auto text-[10px] font-display font-bold uppercase tracking-widest text-apollo-orange">
+                🔥 {selectedSchedule.subtitle}
+              </span>
+            )}
           </div>
 
-          {currentClasses.length === 0 && (
-            <div className="text-center py-6 text-apollo-muted text-sm">
-              No classes scheduled.
+          {/* Classes — compact pill grid */}
+          <div className="min-h-[120px]">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+              <AnimatePresence mode="popLayout">
+                {currentClasses.map((cls, i) => {
+                  const config = classTypeConfig[cls.type]
+                  return (
+                    <motion.div
+                      key={`${selectedDay}-${cls.time}-${cls.type}-${activeFilter}`}
+                      layout
+                      initial={{ opacity: 0, scale: 0.92 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.92 }}
+                      transition={{ duration: 0.2, delay: i * 0.03 }}
+                      className={`${config.bg} border ${config.border} px-3 py-2.5 flex items-center gap-2.5 hover:scale-[1.02] transition-transform duration-150 cursor-default`}
+                    >
+                      <span className="font-stat text-lg text-white leading-none tracking-wide">
+                        {cls.time}
+                      </span>
+                      <div className="flex flex-col gap-0.5">
+                        <span className={`text-[11px] font-display font-bold uppercase tracking-wider leading-none ${config.text}`}>
+                          {cls.type}
+                        </span>
+                        {cls.note && (
+                          <span className="text-[9px] text-apollo-muted leading-none">
+                            {cls.note}
+                          </span>
+                        )}
+                      </div>
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
             </div>
-          )}
 
-          {/* Compact legend */}
+            {currentClasses.length === 0 && (
+              <div className="flex items-center justify-center py-8 text-apollo-muted text-sm">
+                {activeFilter ? `No ${activeFilter} classes on ${schedule[selectedDay]?.day}.` : 'No classes scheduled.'}
+              </div>
+            )}
+          </div>
+
+          {/* Bottom bar — legend + note */}
           <div className="flex flex-wrap items-center gap-4 mt-4 pt-3 border-t border-white/5">
-            {(['WOD', 'S&C', 'Pilates', 'Yoga'] as ClassType[]).map(type => {
+            {allTypes.map(type => {
               const config = classTypeConfig[type]
               return (
                 <div key={type} className="flex items-center gap-1.5">
