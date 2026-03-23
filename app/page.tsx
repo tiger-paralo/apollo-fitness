@@ -6,6 +6,8 @@ import { Header } from "@/components/apollo-header";
 import { Hero } from "@/components/apollo-hero";
 import { Services } from "@/components/apollo-services";
 import { Video } from "@/components/video";
+import { Timetable } from "@/components/apollo-timetable";
+import { FAQ } from "@/components/apollo-faq";
 import { createMetadata, siteConfig } from "@/lib/metadata";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -25,7 +27,9 @@ export default function HomePage(): ReactNode {
         <About />
         <Gallery />
         <Video />
+        <Timetable />
         <Services />
+        <FAQ />
         <Contact />
       </main>
       <Footer />

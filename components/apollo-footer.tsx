@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
+import Image from "next/image";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -27,24 +28,20 @@ export function Footer() {
           {/* Brand Section */}
           <div className="lg:col-span-2">
             <motion.div
-              className="flex items-center space-x-3 mb-4"
+              className="mb-6"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-teal-400 to-teal-600 flex items-center justify-center">
-                <svg 
-                  className="h-5 w-5 text-white" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M9 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-3c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3zm-9 0h6v6H9V9z"/>
-                </svg>
-              </div>
-              <div>
-                <h3 className="text-xl font-bold">APOLLO</h3>
-                <p className="text-teal-400 text-sm tracking-wider">FITNESS STUDIO</p>
+              <div className="relative h-12 w-40 mb-4">
+                <Image
+                  src="/images/apollo-logo.jpg"
+                  alt="Apollo Fitness Studio Logo"
+                  fill
+                  className="object-contain object-left"
+                  sizes="160px"
+                />
               </div>
             </motion.div>
             

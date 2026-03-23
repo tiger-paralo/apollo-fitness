@@ -3,6 +3,7 @@
 import { motion } from "motion/react";
 import { useState, useEffect } from "react";
 import { siteConfig } from "@/lib/config";
+import Image from "next/image";
 
 const navigationItems = [
   { label: "Home", href: "#hero" },
@@ -49,34 +50,19 @@ export function Header() {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <motion.div
-              className="flex items-center space-x-3 cursor-pointer"
+              className="flex items-center cursor-pointer"
               whileHover={{ scale: 1.05 }}
               onClick={() => handleNavClick("#hero")}
             >
-              <div className="h-8 w-8 md:h-10 md:w-10 rounded-full bg-gradient-to-r from-teal-400 to-teal-600 flex items-center justify-center">
-                <svg 
-                  className="h-4 w-4 md:h-5 md:w-5 text-white" 
-                  fill="currentColor" 
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M9 12c0 1.654-1.346 3-3 3s-3-1.346-3-3 1.346-3 3-3 3 1.346 3 3zm9-3c-1.654 0-3 1.346-3 3s1.346 3 3 3 3-1.346 3-3-1.346-3-3-3zm-9 0h6v6H9V9z"/>
-                </svg>
-              </div>
-              <div className="hidden sm:block">
-                <h1 className={`text-lg font-bold ${
-                  isScrolled 
-                    ? "text-gray-900 dark:text-white" 
-                    : "text-white"
-                }`}>
-                  APOLLO
-                </h1>
-                <p className={`text-xs tracking-wider ${
-                  isScrolled 
-                    ? "text-teal-600 dark:text-teal-400" 
-                    : "text-teal-400"
-                }`}>
-                  FITNESS STUDIO
-                </p>
+              <div className="relative h-10 w-32 md:h-12 md:w-36">
+                <Image
+                  src="/images/apollo-logo.jpg"
+                  alt="Apollo Fitness Studio Logo"
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 768px) 128px, 144px"
+                  priority
+                />
               </div>
             </motion.div>
 

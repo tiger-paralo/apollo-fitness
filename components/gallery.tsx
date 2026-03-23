@@ -2,47 +2,47 @@
 
 import { motion } from "motion/react";
 import { useState } from "react";
+import Image from "next/image";
 
 export function Gallery() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // Placeholder images - these would be replaced with actual Apollo gym photos
+  // Real Apollo Fitness Studio images
   const galleryImages = [
     {
       id: 1,
-      title: "Strength Training",
-      description: "Expert coaching in action",
-      placeholder: "strength-training"
+      src: "/images/ed-pic.png",
+      title: "Expert Coaching",
+      description: "Personalized training with Ed",
+      alt: "Ed providing personal training session at Apollo Fitness Studio"
     },
     {
       id: 2,
-      title: "Group Session",
-      description: "Community focused workouts",
-      placeholder: "group-session"
+      src: "/images/alex-pic.png",
+      title: "Strength Training",
+      description: "Alex demonstrating proper form",
+      alt: "Alex performing strength training exercises"
     },
     {
       id: 3,
-      title: "Functional Rig",
-      description: "Fully equipped training area",
-      placeholder: "functional-rig"
+      src: "/images/pic3.jpeg",
+      title: "Gym Action",
+      description: "High-energy training session",
+      alt: "Action shot of training session at Apollo Fitness Studio"
     },
     {
       id: 4,
+      src: "/images/pt.jpeg",
       title: "Personal Training",
-      description: "One-on-one guidance",
-      placeholder: "personal-training"
+      description: "One-on-one coaching session",
+      alt: "Personal training session in progress"
     },
     {
       id: 5,
-      title: "HIIT Session",
-      description: "High-intensity training",
-      placeholder: "hiit-session"
-    },
-    {
-      id: 6,
-      title: "Schedule Board",
-      description: "Class timetable",
-      placeholder: "schedule"
+      src: "/images/pull.jpeg",
+      title: "Functional Rig",
+      description: "Pull-up and functional training",
+      alt: "Athlete using the functional training rig for pull-ups"
     }
   ];
 
@@ -58,19 +58,19 @@ export function Gallery() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            Sweat it Out: Our Fitness Journey in Pictures
+            See Our Community in Action
           </h2>
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Take a look inside Apollo Fitness Studio and see our community in action
+            Take a look inside Apollo Fitness Studio and witness the transformation happening every day
           </p>
         </motion.div>
 
-        {/* Gallery Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Masonry Gallery Grid */}
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
           {galleryImages.map((image, index) => (
             <motion.div
               key={image.id}
-              className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800"
+              className="break-inside-avoid group relative overflow-hidden cursor-pointer rounded-xl bg-gray-100 dark:bg-gray-700"
               initial={{ y: 50, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ 
@@ -80,38 +80,30 @@ export function Gallery() {
               }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.02 }}
-              onClick={() => setSelectedImage(image.placeholder)}
+              onClick={() => setSelectedImage(image.src)}
             >
-              {/* Placeholder Image Content */}
-              <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                <div className="w-16 h-16 mb-4 bg-teal-500 rounded-full flex items-center justify-center group-hover:bg-teal-600 transition-colors">
-                  <svg 
-                    className="w-8 h-8 text-white" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" 
-                    />
-                  </svg>
+              <div className="relative">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  width={400}
+                  height={600}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+                
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-0 left-0 right-0 p-6 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    <h3 className="text-xl font-bold mb-2">{image.title}</h3>
+                    <p className="text-gray-200 text-sm">{image.description}</p>
+                  </div>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-2">
-                  {image.title}
-                </h3>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {image.description}
-                </p>
-              </div>
 
-              {/* Hover Overlay */}
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="text-white text-center">
+                {/* View Icon */}
+                <div className="absolute top-4 right-4 w-10 h-10 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <svg 
-                    className="w-12 h-12 mx-auto mb-2" 
+                    className="w-5 h-5 text-white" 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
@@ -123,70 +115,70 @@ export function Gallery() {
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" 
                     />
                   </svg>
-                  <p className="text-sm font-medium">View Photo</p>
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Note about real images */}
+        {/* Social Proof Badge */}
         <motion.div
-          className="mt-12 text-center"
+          className="mt-16 text-center"
           initial={{ y: 20, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.3 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center space-x-2 px-4 py-2 bg-teal-50 dark:bg-teal-900/20 rounded-full border border-teal-200 dark:border-teal-800">
-            <svg 
-              className="w-5 h-5 text-teal-600 dark:text-teal-400" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
-              />
-            </svg>
-            <span className="text-sm text-teal-700 dark:text-teal-300 font-medium">
-              Gallery will be updated with real Apollo Fitness Studio photos
+          <div className="inline-flex items-center space-x-3 px-6 py-3 bg-teal-50 dark:bg-teal-900/20 rounded-full border border-teal-200 dark:border-teal-800">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-teal-500 rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">8</span>
+              </div>
+              <span className="text-teal-700 dark:text-teal-300 font-medium text-sm">
+                Max participants per session
+              </span>
+            </div>
+            <div className="w-px h-6 bg-teal-200 dark:bg-teal-700"></div>
+            <span className="text-teal-600 dark:text-teal-400 text-sm font-medium">
+              Small group training for maximum attention
             </span>
           </div>
         </motion.div>
       </div>
 
-      {/* Modal for enlarged view (optional) */}
+      {/* Lightbox Modal */}
       {selectedImage && (
         <motion.div
-          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           onClick={() => setSelectedImage(null)}
         >
           <motion.div
-            className="max-w-4xl max-h-full bg-white dark:bg-gray-800 rounded-xl p-4"
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
+            className="relative max-w-4xl max-h-[90vh] w-full"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="text-center p-12">
-              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                {galleryImages.find(img => img.placeholder === selectedImage)?.title}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-300">
-                High-quality photo will be displayed here
-              </p>
-              <button
-                className="mt-6 px-6 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors"
-                onClick={() => setSelectedImage(null)}
-              >
-                Close
-              </button>
-            </div>
+            <Image
+              src={selectedImage}
+              alt="Gallery image"
+              width={800}
+              height={600}
+              className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+              sizes="(max-width: 768px) 100vw, 80vw"
+            />
+            
+            {/* Close Button */}
+            <button
+              className="absolute top-4 right-4 w-10 h-10 bg-black/50 hover:bg-black/70 rounded-full flex items-center justify-center text-white transition-colors"
+              onClick={() => setSelectedImage(null)}
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </motion.div>
         </motion.div>
       )}
