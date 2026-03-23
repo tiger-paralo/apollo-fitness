@@ -24,16 +24,13 @@ export function useReveal() {
           }
         })
       },
-      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
+      { threshold: 0.01, rootMargin: '50px 0px 0px 0px' }
     )
 
-    // Small delay to ensure layout is settled after hydration
-    const timer = setTimeout(() => {
-      reveals.forEach((el) => observer.observe(el))
-    }, 100)
+    // Observe immediately — IntersectionObserver fires for initial state
+    reveals.forEach((el) => observer.observe(el))
 
     return () => {
-      clearTimeout(timer)
       observer.disconnect()
     }
   }, [])
