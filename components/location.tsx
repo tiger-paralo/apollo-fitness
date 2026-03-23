@@ -56,7 +56,7 @@ export function Location() {
             href={GOOGLE_MAPS_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative block rounded-2xl overflow-hidden bg-apollo-card border border-white/5 hover:border-apollo-teal/20 transition-all duration-500"
+            className="group relative block overflow-hidden bg-apollo-card border border-white/5 hover:border-apollo-teal/20 transition-all duration-500"
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.1 }}
@@ -131,13 +131,13 @@ export function Location() {
           <div className="flex flex-col justify-center gap-8">
             {/* Address card */}
             <motion.div
-              className="bg-apollo-card rounded-2xl p-6 md:p-8 border border-white/5"
+              className="bg-apollo-card p-6 md:p-8 border border-white/5"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="flex items-start gap-4 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-apollo-teal/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <div className="w-10 h-10 bg-apollo-teal/10 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-apollo-teal">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
@@ -156,9 +156,6 @@ export function Location() {
               {/* Quick info pills */}
               <div className="flex flex-wrap gap-2">
                 <span className="text-xs px-3 py-1.5 rounded-full bg-white/5 text-apollo-muted">
-                  🅿️ Free parking on-site
-                </span>
-                <span className="text-xs px-3 py-1.5 rounded-full bg-white/5 text-apollo-muted">
                   📍 Opposite Braywick Park
                 </span>
               </div>
@@ -166,7 +163,7 @@ export function Location() {
 
             {/* How to find us */}
             <motion.div
-              className="bg-apollo-card rounded-2xl p-6 md:p-8 border border-white/5"
+              className="bg-apollo-card p-6 md:p-8 border border-white/5"
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.3 }}
@@ -191,7 +188,7 @@ export function Location() {
               href={GOOGLE_MAPS_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-apollo-teal/10 hover:bg-apollo-teal/20 text-apollo-teal border border-apollo-teal/20 rounded-xl px-6 py-3.5 font-display font-medium text-sm uppercase tracking-wider transition-all duration-300"
+              className="inline-flex items-center justify-center gap-2 bg-apollo-teal/10 hover:bg-apollo-teal/20 text-apollo-teal border border-apollo-teal/20 px-6 py-3.5 font-display font-medium text-sm uppercase tracking-wider transition-all duration-300"
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}

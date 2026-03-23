@@ -87,12 +87,11 @@ export function SplashScreen({ children }: { children: React.ReactNode }) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src="/images/apollo-icon-tiny.webp"
+                src="/images/apollo-icon-splash.jpg"
                 alt=""
-                width={80}
-                height={80}
-                className="w-16 h-16 md:w-20 md:h-20"
-                // Tiny webp loads instantly — no layout shift
+                width={160}
+                height={160}
+                className="w-20 h-20 md:w-24 md:h-24"
               />
 
               {/* Minimal loading indicator — three dots */}
