@@ -22,27 +22,27 @@ type MediaItem = {
   alt?: string
 }
 
-// Placeholder content using existing gym photos — swap for real IG content later
+// Real IG reels + gym photos — mixed video and image content
 const ROW_1: MediaItem[] = [
+  { type: 'video', src: '/videos/ig/reel-01.mp4', alt: 'Apollo safe space to get stronger' },
   { type: 'image', src: '/images/outdoor-training.jpg', alt: 'Outdoor group training' },
-  { type: 'image', src: '/images/cable-crossover.jpg', alt: 'Cable crossover training' },
+  { type: 'video', src: '/videos/ig/reel-03.mp4', alt: 'Free trial week at Apollo' },
   { type: 'image', src: '/images/coaching-squat.jpg', alt: 'Coaching squat form' },
+  { type: 'video', src: '/videos/ig/reel-04.mp4', alt: 'S&C team workout' },
+  { type: 'image', src: '/images/cable-crossover.jpg', alt: 'Cable crossover training' },
   { type: 'image', src: '/images/apollo-rack.jpg', alt: 'Apollo rack setup' },
   { type: 'image', src: '/images/pic3.jpeg', alt: 'Apollo Fitness session' },
-  { type: 'image', src: '/images/pull.jpeg', alt: 'Pull exercise' },
-  { type: 'image', src: '/images/pt.jpeg', alt: 'Personal training' },
-  { type: 'image', src: '/images/hero-rower.jpg', alt: 'Rower workout' },
 ]
 
 const ROW_2: MediaItem[] = [
   { type: 'image', src: '/images/hero-rower.jpg', alt: 'Rower workout' },
+  { type: 'video', src: '/videos/ig/reel-02.mp4', alt: 'Free week at Apollo' },
   { type: 'image', src: '/images/pull.jpeg', alt: 'Pull exercise' },
-  { type: 'image', src: '/images/apollo-rack.jpg', alt: 'Apollo rack setup' },
-  { type: 'image', src: '/images/outdoor-training.jpg', alt: 'Outdoor group training' },
+  { type: 'video', src: '/videos/ig/reel-01.mp4', alt: 'Apollo safe space to get stronger' },
   { type: 'image', src: '/images/pt.jpeg', alt: 'Personal training' },
+  { type: 'video', src: '/videos/ig/reel-04.mp4', alt: 'S&C team workout' },
+  { type: 'image', src: '/images/outdoor-training.jpg', alt: 'Outdoor group training' },
   { type: 'image', src: '/images/coaching-squat.jpg', alt: 'Coaching squat form' },
-  { type: 'image', src: '/images/cable-crossover.jpg', alt: 'Cable crossover training' },
-  { type: 'image', src: '/images/pic3.jpeg', alt: 'Apollo Fitness session' },
 ]
 
 /* ── Infinite scrolling row ── */
