@@ -59,11 +59,18 @@ export function Header() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        {/* Fog gradient beneath nav */}
+        {/* Fog gradient beneath nav — extended blur zone */}
         <div
-          className={`absolute inset-x-0 -bottom-16 h-16 bg-gradient-to-b from-apollo-black/60 to-transparent pointer-events-none transition-opacity duration-500 ${
+          className={`absolute inset-x-0 -bottom-24 h-24 pointer-events-none transition-opacity duration-500 ${
             isScrolled ? 'opacity-100' : 'opacity-0'
           }`}
+          style={{
+            background: 'linear-gradient(to bottom, rgba(10,10,10,0.8) 0%, rgba(10,10,10,0.4) 40%, transparent 100%)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+            maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)',
+          }}
         />
 
         <div className="container mx-auto max-w-6xl px-6">
