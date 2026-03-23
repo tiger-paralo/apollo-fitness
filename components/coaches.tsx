@@ -60,13 +60,13 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
   return (
     <motion.div
       ref={cardRef}
-      className={`grid grid-cols-1 md:grid-cols-2 gap-0 items-stretch ${isReversed ? 'md:[direction:rtl]' : ''}`}
+      className={`grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch ${isReversed ? 'lg:[direction:rtl]' : ''}`}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.7, delay: index * 0.15 }}
     >
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden md:[direction:ltr]">
+      <div className="relative aspect-[4/3] overflow-hidden lg:[direction:ltr]">
         <motion.div className="absolute inset-0" style={{ y: imageY }}>
           <Image
             src={coach.image}
@@ -77,11 +77,11 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
           />
         </motion.div>
         {/* Edge gradient blending into content side */}
-        <div className={`absolute inset-0 bg-gradient-to-t from-apollo-black via-transparent to-transparent opacity-60 md:opacity-0`} />
-        <div className={`absolute inset-0 hidden md:block ${isReversed ? 'bg-gradient-to-r' : 'bg-gradient-to-l'} from-transparent via-transparent to-apollo-black/80`} />
+        <div className={`absolute inset-0 bg-gradient-to-t from-apollo-black via-transparent to-transparent opacity-60 lg:opacity-0`} />
+        <div className={`absolute inset-0 hidden lg:block ${isReversed ? 'bg-gradient-to-r' : 'bg-gradient-to-l'} from-transparent via-transparent to-apollo-black/80`} />
 
         {/* Mobile tagline */}
-        <div className="absolute bottom-4 left-4 md:hidden">
+        <div className="absolute bottom-4 left-4 lg:hidden">
           <span className={`inline-block px-3 py-1.5 ${isTeal ? 'bg-apollo-teal/20 text-apollo-teal border-apollo-teal/30' : 'bg-apollo-orange/20 text-apollo-orange border-apollo-orange/30'} font-display font-bold text-xs tracking-widest uppercase border`}>
             {coach.tagline}
           </span>
@@ -89,10 +89,10 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col justify-center py-8 md:py-10 md:px-10 md:[direction:ltr]">
+      <div className="flex flex-col justify-center py-8 lg:py-10 lg:px-10 lg:[direction:ltr]">
         {/* Desktop tagline */}
         <motion.span
-          className={`hidden md:inline-block px-3 py-1.5 ${isTeal ? 'bg-apollo-teal/10 text-apollo-teal border-apollo-teal/20' : 'bg-apollo-orange/10 text-apollo-orange border-apollo-orange/20'} font-display font-bold text-xs tracking-widest uppercase mb-4 border w-fit`}
+          className={`hidden lg:inline-block px-3 py-1.5 ${isTeal ? 'bg-apollo-teal/10 text-apollo-teal border-apollo-teal/20' : 'bg-apollo-orange/10 text-apollo-orange border-apollo-orange/20'} font-display font-bold text-xs tracking-widest uppercase mb-4 border w-fit`}
           initial={{ opacity: 0, x: isReversed ? 20 : -20 }}
           animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: isReversed ? 20 : -20 }}
           transition={{ duration: 0.5, delay: 0.3 }}
