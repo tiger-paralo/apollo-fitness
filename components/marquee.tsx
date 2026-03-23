@@ -4,7 +4,7 @@ import { ScrollVelocity } from '@/components/react-bits/scroll-velocity'
 
 export function Marquee() {
   return (
-    <div className="py-8 md:py-12 border-y border-white/5 bg-apollo-black overflow-hidden select-none">
+    <div className="py-6 md:py-8 border-y border-white/5 bg-apollo-black overflow-hidden select-none">
       <ScrollVelocity
         texts={[
           'STRENGTH  •  COMMUNITY  •  PROGRESS  •  FUNCTIONAL FITNESS  •  NO EGOS  •  MAX 8 PER CLASS  •',

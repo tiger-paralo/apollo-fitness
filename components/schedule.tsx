@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import { useReveal } from '@/hooks/useReveal'
+import { useState, useRef, useMemo } from 'react'
+import { motion, useInView, AnimatePresence } from 'motion/react'
 
 type ClassType = 'WOD' | 'S&C' | 'Pilates' | 'Yoga'
 
@@ -14,6 +14,7 @@ interface ScheduleClass {
 
 interface DaySchedule {
   day: string
+  shortDay: string
   subtitle?: string
   classes: ScheduleClass[]
 }
@@ -21,6 +22,7 @@ interface DaySchedule {
 const schedule: DaySchedule[] = [
   {
     day: 'Monday',
+    shortDay: 'MON',
     classes: [
       { time: '7:15', type: 'WOD' },
       { time: '8:15', type: 'WOD' },
@@ -32,6 +34,7 @@ const schedule: DaySchedule[] = [
   },
   {
     day: 'Tuesday',
+    shortDay: 'TUE',
     classes: [
       { time: '7:15', type: 'WOD' },
       { time: '8:15', type: 'WOD' },
@@ -43,6 +46,7 @@ const schedule: DaySchedule[] = [
   },
   {
     day: 'Wednesday',
+    shortDay: 'WED',
     classes: [
       { time: '7:15', type: 'WOD' },
       { time: '8:15', type: 'WOD' },
@@ -53,7 +57,8 @@ const schedule: DaySchedule[] = [
   },
   {
     day: 'Thursday',
-    subtitle: 'HYROX DAY',
+    shortDay: 'THU',
+    subtitle: 'HYROX',
     classes: [
       { time: '7:15', type: 'WOD' },
       { time: '8:15', type: 'WOD' },
@@ -65,6 +70,7 @@ const schedule: DaySchedule[] = [
   },
   {
     day: 'Friday',
+    shortDay: 'FRI',
     classes: [
       { time: '7:15', type: 'WOD' },
       { time: '8:15', type: 'WOD' },
@@ -74,154 +80,219 @@ const schedule: DaySchedule[] = [
   },
   {
     day: 'Saturday',
+    shortDay: 'SAT',
     classes: [
       { time: '9:30', type: 'WOD', note: 'Team Workout!' },
     ]
   },
 ]
 
-const classTypeStyles: Record<ClassType, { bg: string; text: string; dot: string }> = {
-  'WOD': { bg: 'bg-apollo-orange/10', text: 'text-apollo-orange', dot: 'bg-apollo-orange' },
-  'S&C': { bg: 'bg-apollo-teal/10', text: 'text-apollo-teal', dot: 'bg-apollo-teal' },
-  'Pilates': { bg: 'bg-purple-500/10', text: 'text-purple-400', dot: 'bg-purple-400' },
-  'Yoga': { bg: 'bg-indigo-500/10', text: 'text-indigo-400', dot: 'bg-indigo-400' },
+const classTypeConfig: Record<ClassType, { bg: string; text: string; dot: string; border: string }> = {
+  'WOD': { bg: 'bg-apollo-orange/10', text: 'text-apollo-orange', dot: 'bg-apollo-orange', border: 'border-apollo-orange/20' },
+  'S&C': { bg: 'bg-apollo-teal/10', text: 'text-apollo-teal', dot: 'bg-apollo-teal', border: 'border-apollo-teal/20' },
+  'Pilates': { bg: 'bg-purple-500/10', text: 'text-purple-400', dot: 'bg-purple-400', border: 'border-purple-400/20' },
+  'Yoga': { bg: 'bg-indigo-500/10', text: 'text-indigo-400', dot: 'bg-indigo-400', border: 'border-indigo-400/20' },
 }
 
-function ClassPill({ cls }: { cls: ScheduleClass }) {
-  const style = classTypeStyles[cls.type]
-  return (
-    <div className={`flex items-center gap-3 px-4 py-3 ${style.bg} border border-white/5`}>
-      <div className={`w-2 h-2 ${style.dot} shrink-0`} />
-      <span className="text-sm text-apollo-muted font-mono w-16 shrink-0">{cls.time}</span>
-      <span className={`text-sm font-display font-bold uppercase tracking-wide ${style.text}`}>
-        {cls.type}
-      </span>
-      {cls.note && (
-        <span className="text-xs text-apollo-muted ml-auto hidden sm:inline">
-          {cls.note}
-        </span>
-      )}
-    </div>
-  )
+const allTypes: ClassType[] = ['WOD', 'S&C', 'Pilates', 'Yoga']
+
+function getTodayIndex(): number {
+  const day = new Date().getDay()
+  // Sunday = 0, our schedule starts Monday = 0
+  if (day === 0) return -1 // Sunday — no classes
+  return day - 1
 }
 
 export function Schedule() {
-  const sectionRef = useReveal()
-  const [openDay, setOpenDay] = useState<number>(0)
+  const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
+  const todayIndex = getTodayIndex()
+
+  const [selectedDay, setSelectedDay] = useState<number>(todayIndex >= 0 ? todayIndex : 0)
+  const [filterType, setFilterType] = useState<ClassType | null>(null)
+
+  const filteredClasses = useMemo(() => {
+    const day = schedule[selectedDay]
+    if (!day) return []
+    if (!filterType) return day.classes
+    return day.classes.filter(c => c.type === filterType)
+  }, [selectedDay, filterType])
 
   return (
     <section
       ref={sectionRef}
       id="schedule"
-      className="relative py-28 md:py-36 bg-apollo-card overflow-hidden"
+      className="relative py-20 md:py-28 bg-apollo-card overflow-hidden"
     >
-      {/* Background accent */}
-      <div className="absolute -top-32 -right-10 w-[28rem] h-[28rem] bg-gradient-radial from-apollo-orange/4 to-transparent pointer-events-none" />
-
       <div className="container mx-auto max-w-6xl px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Content */}
-          <div className="schedule-content reveal">
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-14 items-start">
+          {/* Left — Content */}
+          <motion.div
+            className="lg:col-span-2"
+            initial={{ opacity: 0, x: -30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+            transition={{ duration: 0.6 }}
+          >
             <span className="font-display font-medium text-xs tracking-widest uppercase text-apollo-teal mb-4 block">
               Class Schedule
             </span>
-            <h2 className="font-display font-bold text-heading-lg uppercase tracking-tight mb-6">
+            <h2 className="font-display font-bold text-heading-lg uppercase tracking-tight mb-5">
               Find Your<br />Session
             </h2>
-            <p className="text-apollo-muted text-lg leading-relaxed mb-8">
-              WODs, Strength & Conditioning, and Hyrox Thursdays — structured across the week so you can build consistency around your life. Every session is coached. Every session counts.
+            <p className="text-apollo-muted text-base leading-relaxed mb-8">
+              WODs, Strength & Conditioning, and Hyrox Thursdays — structured across the week so you can build consistency around your life.
             </p>
 
-            {/* First Week Free Offer */}
-            <div className="free-week-box bg-apollo-black border border-apollo-orange/20 p-8 mb-8 reveal" style={{ transitionDelay: '0.15s' }}>
-              <div className="font-stat text-4xl text-apollo-orange leading-none mb-2">
+            {/* First Week Free */}
+            <motion.div
+              className="bg-apollo-black border border-apollo-orange/20 p-6 mb-6"
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="font-stat text-3xl text-apollo-orange leading-none mb-2">
                 First Week Free
               </div>
               <p className="text-apollo-muted text-sm">
-                No commitment. No card details. Just turn up, train, and see if Apollo is your kind of gym.
+                No commitment. No card details. Just turn up and train.
               </p>
-            </div>
+            </motion.div>
 
             <Link
               href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
-              className="inline-flex items-center justify-center px-10 py-4 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase border-none cursor-pointer transition-all duration-300 hover:bg-apollo-orange-hover hover:-translate-y-0.5 hover:scale-105 hover:shadow-xl hover:shadow-apollo-orange/30"
+              className="group relative inline-flex items-center justify-center px-8 py-3.5 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-apollo-orange/30"
             >
-              Claim Your Free Week
+              <span className="relative z-10">Claim Your Free Week</span>
+              <div className="absolute inset-0 bg-apollo-orange-hover translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
             </Link>
+          </motion.div>
+
+          {/* Right — Interactive Schedule */}
+          <motion.div
+            className="lg:col-span-3"
+            initial={{ opacity: 0, x: 30 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            {/* Day Tabs */}
+            <div className="flex gap-1 mb-4 overflow-x-auto scrollbar-hide pb-1">
+              {schedule.map((day, idx) => (
+                <button
+                  key={day.day}
+                  onClick={() => setSelectedDay(idx)}
+                  className={`relative flex flex-col items-center gap-0.5 px-3 py-2.5 font-display font-bold text-xs tracking-wider uppercase transition-all duration-300 shrink-0 ${
+                    selectedDay === idx
+                      ? 'text-apollo-text bg-white/10'
+                      : 'text-apollo-muted hover:text-apollo-text hover:bg-white/5'
+                  }`}
+                >
+                  {day.shortDay}
+                  {day.subtitle && (
+                    <span className="text-[9px] text-apollo-orange font-medium tracking-normal">
+                      {day.subtitle}
+                    </span>
+                  )}
+                  {idx === todayIndex && (
+                    <div className="absolute -top-0.5 right-1 w-1.5 h-1.5 bg-apollo-teal rounded-full" />
+                  )}
+                  {selectedDay === idx && (
+                    <motion.div
+                      className="absolute bottom-0 left-0 right-0 h-0.5 bg-apollo-orange"
+                      layoutId="dayTab"
+                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Type Filter Pills */}
+            <div className="flex gap-1.5 mb-4 flex-wrap">
+              <button
+                onClick={() => setFilterType(null)}
+                className={`px-3 py-1.5 text-xs font-display font-medium uppercase tracking-wider transition-all duration-200 ${
+                  filterType === null
+                    ? 'bg-white/10 text-white'
+                    : 'bg-white/5 text-apollo-muted hover:text-white'
+                }`}
+              >
+                All
+              </button>
+              {allTypes.map(type => {
+                const config = classTypeConfig[type]
+                const hasType = schedule[selectedDay]?.classes.some(c => c.type === type)
+                if (!hasType) return null
+                return (
+                  <button
+                    key={type}
+                    onClick={() => setFilterType(filterType === type ? null : type)}
+                    className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-display font-medium uppercase tracking-wider transition-all duration-200 ${
+                      filterType === type
+                        ? `${config.bg} ${config.text} ${config.border} border`
+                        : 'bg-white/5 text-apollo-muted hover:text-white'
+                    }`}
+                  >
+                    <div className={`w-1.5 h-1.5 rounded-full ${config.dot}`} />
+                    {type}
+                  </button>
+                )
+              })}
+            </div>
+
+            {/* Classes Grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
+              <AnimatePresence mode="popLayout">
+                {filteredClasses.map((cls, i) => {
+                  const config = classTypeConfig[cls.type]
+                  return (
+                    <motion.div
+                      key={`${selectedDay}-${cls.time}-${cls.type}`}
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.25, delay: i * 0.03 }}
+                      className={`${config.bg} border ${config.border} p-3 group hover:scale-[1.02] transition-transform duration-200 cursor-default`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className={`w-2 h-2 rounded-full ${config.dot}`} />
+                        <span className={`text-sm font-display font-bold uppercase ${config.text}`}>
+                          {cls.type}
+                        </span>
+                      </div>
+                      <div className="text-lg font-stat text-white leading-none">
+                        {cls.time}
+                      </div>
+                      {cls.note && (
+                        <div className="text-[10px] text-apollo-muted mt-1 font-display uppercase tracking-wider">
+                          {cls.note}
+                        </div>
+                      )}
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
+            </div>
+
+            {filteredClasses.length === 0 && (
+              <div className="text-center py-8 text-apollo-muted text-sm">
+                No {filterType} classes on {schedule[selectedDay]?.day}.
+              </div>
+            )}
 
             {/* Legend */}
-            <div className="flex flex-wrap gap-4 mt-8">
-              {(Object.entries(classTypeStyles) as [ClassType, typeof classTypeStyles[ClassType]][]).map(([type, style]) => (
-                <div key={type} className="flex items-center gap-2">
-                  <div className={`w-2.5 h-2.5 ${style.dot}`} />
-                  <span className="text-xs text-apollo-muted uppercase tracking-wide">{type}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Timetable */}
-          <div className="schedule-table reveal" style={{ transitionDelay: '0.1s' }}>
-            {/* Mobile Accordion */}
-            <div className="lg:hidden space-y-2">
-              {schedule.map((day, idx) => (
-                <div key={day.day} className="border border-white/10 bg-apollo-black">
-                  <button
-                    onClick={() => setOpenDay(openDay === idx ? -1 : idx)}
-                    className="w-full flex items-center justify-between px-5 py-4 text-left"
-                  >
-                    <div className="flex items-center gap-3">
-                      <h3 className="font-display font-bold text-lg uppercase">{day.day}</h3>
-                      {day.subtitle && (
-                        <span className="text-xs font-display uppercase tracking-wider text-apollo-orange bg-apollo-orange/10 px-2 py-0.5">
-                          {day.subtitle}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <span className="text-xs text-apollo-muted">{day.classes.length} classes</span>
-                      <svg
-                        className={`w-4 h-4 text-apollo-muted transition-transform duration-300 ${openDay === idx ? 'rotate-180' : ''}`}
-                        viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                      >
-                        <path d="M6 9l6 6 6-6" />
-                      </svg>
-                    </div>
-                  </button>
-                  <div className={`schedule-accordion-content ${openDay === idx ? 'open' : ''}`}>
-                    <div className="schedule-accordion-inner">
-                      <div className="px-3 pb-3 space-y-1">
-                        {day.classes.map((cls, i) => (
-                          <ClassPill key={i} cls={cls} />
-                        ))}
-                      </div>
-                    </div>
+            <div className="flex flex-wrap gap-4 mt-5 pt-4 border-t border-white/5">
+              {allTypes.map(type => {
+                const config = classTypeConfig[type]
+                return (
+                  <div key={type} className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${config.dot}`} />
+                    <span className="text-xs text-apollo-muted uppercase tracking-wide">{type}</span>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
-
-            {/* Desktop Grid */}
-            <div className="hidden lg:block border border-white/10 bg-apollo-black overflow-hidden">
-              {schedule.map((day) => (
-                <div key={day.day} className="border-b border-white/5 last:border-b-0">
-                  <div className="flex items-center gap-3 px-5 py-3 bg-white/[0.02]">
-                    <h3 className="font-display font-bold text-sm uppercase tracking-wide min-w-24">{day.day}</h3>
-                    {day.subtitle && (
-                      <span className="text-xs font-display uppercase tracking-wider text-apollo-orange bg-apollo-orange/10 px-2 py-0.5">
-                        {day.subtitle}
-                      </span>
-                    )}
-                  </div>
-                  <div className="px-3 pb-3 pt-1 grid grid-cols-2 gap-1">
-                    {day.classes.map((cls, i) => (
-                      <ClassPill key={i} cls={cls} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

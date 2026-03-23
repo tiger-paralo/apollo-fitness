@@ -62,6 +62,15 @@ a {
   text-decoration: none;
 }
 
+/* ── Hide scrollbars for horizontal scroll areas ── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* ── Reveal animations ────────────────────────────────────
    Visible by default (SSR-safe). After JS hydration, the
    useReveal hook adds .reveal-ready to the section, which
@@ -109,25 +118,4 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
-}
-
-/* Schedule accordion styles */
-.schedule-accordion-content {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease-out;
-}
-
-.schedule-accordion-content.open {
-  grid-template-rows: 1fr;
-}
-
-.schedule-accordion-inner {
-  overflow: hidden;
-}
-
-/* Hero ambient glow animation */
-@keyframes hero-glow {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(30px, -20px) scale(1.15); }
 }

@@ -1,48 +1,63 @@
 'use client'
 
 import Link from 'next/link'
-import { useReveal } from '@/hooks/useReveal'
+import { useRef } from 'react'
+import { motion, useInView } from 'motion/react'
 
 export function Footer() {
-  const sectionRef = useReveal()
+  const ref = useRef<HTMLElement>(null)
+  const isInView = useInView(ref, { once: true, margin: '-50px' })
 
   return (
     <footer
-      ref={sectionRef}
+      ref={ref}
       id="contact"
-      className="border-t border-white/5 pt-16 pb-8"
+      className="border-t border-white/5 pt-14 pb-8"
     >
       <div className="container mx-auto max-w-6xl px-6">
         {/* Main Footer Grid */}
-        <div className="footer-content grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
-          <div className="md:col-span-2 reveal">
+          <motion.div
+            className="md:col-span-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5 }}
+          >
             <h3 className="font-display font-bold text-2xl uppercase mb-3">
               Apollo Fitness Studio
             </h3>
             <p className="text-apollo-muted text-sm leading-relaxed max-w-sm">
               Functional fitness, expert coaching, and a community that gives a damn. Inside Padel Maidenhead, Braywick Road.
             </p>
-          </div>
+          </motion.div>
 
           {/* Location */}
-          <div className="reveal" style={{ transitionDelay: '0.1s' }}>
-            <h4 className="font-display font-medium text-xs tracking-widest uppercase text-apollo-muted mb-5">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <h4 className="font-display font-medium text-xs tracking-widest uppercase text-apollo-muted mb-4">
               Find Us
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li className="text-sm text-apollo-muted">Inside Padel Maidenhead</li>
               <li className="text-sm text-apollo-muted">Braywick Road</li>
               <li className="text-sm text-apollo-muted">Maidenhead SL6 1BN</li>
             </ul>
-          </div>
+          </motion.div>
 
           {/* Contact */}
-          <div className="reveal" style={{ transitionDelay: '0.2s' }}>
-            <h4 className="font-display font-medium text-xs tracking-widest uppercase text-apollo-muted mb-5">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            <h4 className="font-display font-medium text-xs tracking-widest uppercase text-apollo-muted mb-4">
               Get In Touch
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li>
                 <Link
                   href="mailto:apollofitnessstudio@gmail.com"
@@ -62,11 +77,11 @@ export function Footer() {
                 </Link>
               </li>
             </ul>
-          </div>
+          </motion.div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+        <div className="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p className="text-xs text-apollo-subtle">
             &copy; 2026 Apollo Fitness Studio. All rights reserved.
           </p>
