@@ -60,13 +60,13 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
   return (
     <motion.div
       ref={cardRef}
-      className={`grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch ${isReversed ? 'lg:[direction:rtl]' : ''}`}
+      className={`grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch overflow-hidden ${isReversed ? 'lg:[direction:rtl]' : ''}`}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.7, delay: index * 0.15 }}
     >
       {/* Image */}
-      <div className="relative aspect-[4/3] overflow-hidden lg:[direction:ltr]">
+      <div className="relative aspect-[3/2] lg:aspect-auto overflow-hidden min-h-[280px] lg:min-h-0 lg:[direction:ltr]">
         <motion.div className="absolute inset-0" style={{ y: imageY }}>
           <Image
             src={coach.image}
