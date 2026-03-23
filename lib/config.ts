@@ -8,21 +8,21 @@
  */
 
 export const siteConfig = {
-  name: "Pulsewave",
-  tagline: "Built to evolve ideas.",
+  name: "Apollo Fitness Studio",
+  tagline: "Your Strength, Our Focus.",
   description:
-    "We craft exceptional digital experiences that captivate audiences and drive results. From strategy to execution, we bring your vision to life.",
-  url: "https://pulsewave.studio",
-  twitter: "@pulsewave",
+    "Apollo Fitness Studio in Maidenhead offers expert-led strength & conditioning sessions, WODs, and yoga classes. No mirrors. No egos. Just progress.",
+  url: "https://apollofitnessstudio.com",
+  twitter: "@apollofitnessstudio",
 
   nav: {
     cta: {
-      text: "Get in Touch",
+      text: "Join Us",
       href: "#contact",
     },
     signIn: {
-      text: "Sign in",
-      href: "#",
+      text: "Book a Class",
+      href: "#contact",
     },
   },
 } as const;

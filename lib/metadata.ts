@@ -1,27 +1,29 @@
 import type { Metadata } from "next";
 
 export const siteConfig = {
-  name: "React Bits Pro - Agency Template",
+  name: "Apollo Fitness Studio Maidenhead",
   description:
-    "We craft exceptional digital experiences that captivate audiences and drive results. From strategy to execution, we bring your vision to life.",
-  url: "https://pulsewave.design",
+    "Apollo Fitness Studio in Maidenhead offers expert-led strength & conditioning sessions, WODs, and yoga classes. No mirrors. No egos. Just progress.",
+  url: "https://apollofitnessstudio.com",
   ogImage: "/og-image.png",
-  creator: "@pulsewave",
+  creator: "@apollofitnessstudio",
   authors: [
     {
-      name: "Pulsewave Studio",
-      url: "https://pulsewave.design",
+      name: "Apollo Fitness Studio",
+      url: "https://apollofitnessstudio.com",
     },
   ],
   keywords: [
-    "creative agency",
-    "digital agency",
-    "web design",
-    "brand identity",
-    "product design",
-    "Next.js",
-    "React",
-    "Tailwind CSS",
+    "fitness studio",
+    "gym maidenhead",
+    "strength training",
+    "conditioning classes",
+    "WOD workout",
+    "yoga classes",
+    "personal training",
+    "hyrox training",
+    "functional fitness",
+    "small group training",
   ],
 } as const;
 
