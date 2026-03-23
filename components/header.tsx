@@ -2,7 +2,7 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 
 export function Header() {
@@ -13,18 +13,30 @@ export function Header() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 80)
     }
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (sectionId: string) => {
-    setMobileMenuOpen(false)
-    const section = document.getElementById(sectionId)
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  // Lock body scroll when menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
     }
-  }
+    return () => { document.body.style.overflow = '' }
+  }, [mobileMenuOpen])
+
+  const scrollToSection = useCallback((sectionId: string) => {
+    setMobileMenuOpen(false)
+    // Small delay so the overlay closes before scroll
+    setTimeout(() => {
+      const section = document.getElementById(sectionId)
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 300)
+  }, [])
 
   const navItems = [
     { label: 'Why Apollo', section: 'why' },
@@ -35,93 +47,141 @@ export function Header() {
   ]
 
   return (
-    <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
-        isScrolled
-          ? 'bg-apollo-black/95 backdrop-blur-xl border-b border-white/5 py-2'
-          : 'py-4'
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-    >
-      <div className="container mx-auto max-w-6xl px-6">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link href="#" className="flex items-center">
-            <Image
-              src="/images/apollo-logo.png"
-              alt="Apollo Fitness Studio"
-              width={180}
-              height={102}
-              className="h-9 w-auto md:h-11"
-              priority
-            />
-          </Link>
-
-          {/* Navigation — Desktop */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navItems.map((item) => (
-              <button
-                key={item.section}
-                onClick={() => scrollToSection(item.section)}
-                className="group relative font-medium text-sm tracking-wider uppercase text-apollo-muted hover:text-apollo-text transition-colors duration-300"
-              >
-                {item.label}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-apollo-orange group-hover:w-full transition-all duration-300" />
-              </button>
-            ))}
-          </nav>
-
-          {/* CTA Button — Desktop */}
-          <div className="hidden md:block">
-            <Link
-              href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
-              className="group relative inline-flex items-center justify-center px-6 py-2.5 bg-apollo-orange text-apollo-text font-display font-bold text-xs tracking-wide uppercase overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-apollo-orange/30"
-            >
-              <span className="relative z-10">Book Free Trial</span>
-              <div className="absolute inset-0 bg-apollo-orange-hover translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+    <>
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-400 ${
+          isScrolled || mobileMenuOpen
+            ? 'bg-apollo-black/95 backdrop-blur-xl border-b border-white/5 py-2'
+            : 'py-4'
+        }`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <div className="container mx-auto max-w-6xl px-6">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link href="#" className="flex items-center relative z-50">
+              <Image
+                src="/images/apollo-logo.png"
+                alt="Apollo Fitness Studio"
+                width={180}
+                height={102}
+                className="h-9 w-auto md:h-11"
+                priority
+              />
             </Link>
-          </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden flex flex-col gap-1.5 p-2 relative z-60"
-            aria-label="Toggle menu"
-          >
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
-          </button>
-        </div>
+            {/* Navigation — Desktop */}
+            <nav className="hidden md:flex items-center gap-8">
+              {navItems.map((item) => (
+                <button
+                  key={item.section}
+                  onClick={() => scrollToSection(item.section)}
+                  className="group relative font-medium text-sm tracking-wider uppercase text-apollo-muted hover:text-apollo-text transition-colors duration-300"
+                >
+                  {item.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-px bg-apollo-orange group-hover:w-full transition-all duration-300" />
+                </button>
+              ))}
+            </nav>
 
-        {/* Mobile Menu */}
-        <AnimatePresence>
-          {mobileMenuOpen && (
-            <motion.nav
-              className="md:hidden mt-4 pb-4 border-t border-white/10 pt-4 flex flex-col gap-4"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+            {/* CTA Button — Desktop */}
+            <div className="hidden md:block">
+              <Link
+                href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
+                className="group relative inline-flex items-center justify-center px-6 py-2.5 bg-apollo-orange text-apollo-text font-display font-bold text-xs tracking-wide uppercase overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-apollo-orange/30"
+              >
+                <span className="relative z-10">Book Free Trial</span>
+                <div className="absolute inset-0 bg-apollo-orange-hover translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              </Link>
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex flex-col gap-1.5 p-2 relative z-50"
+              aria-label="Toggle menu"
             >
+              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 origin-center ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0 scale-0' : ''}`} />
+              <span className={`block w-6 h-0.5 bg-white transition-all duration-300 origin-center ${mobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            </button>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Full-screen mobile menu overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            className="fixed inset-0 z-40 md:hidden bg-apollo-black flex flex-col"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Subtle background accent */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute -top-1/4 -right-1/4 w-[600px] h-[600px] bg-apollo-orange/[0.03] rounded-full blur-3xl" />
+              <div className="absolute -bottom-1/4 -left-1/4 w-[400px] h-[400px] bg-apollo-teal/[0.03] rounded-full blur-3xl" />
+            </div>
+
+            {/* Nav items — centered vertically */}
+            <nav className="flex-1 flex flex-col items-center justify-center gap-1 px-8">
               {navItems.map((item, i) => (
                 <motion.button
                   key={item.section}
                   onClick={() => scrollToSection(item.section)}
-                  className="font-medium text-sm tracking-wider uppercase text-apollo-muted hover:text-apollo-text text-left"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.05 }}
+                  className="group py-3 w-full text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ delay: 0.1 + i * 0.06, duration: 0.4 }}
                 >
-                  {item.label}
+                  <span className="font-display font-bold text-2xl tracking-wide uppercase text-white/80 group-hover:text-apollo-orange transition-colors duration-300">
+                    {item.label}
+                  </span>
                 </motion.button>
               ))}
-            </motion.nav>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.header>
+
+              {/* CTA in menu */}
+              <motion.div
+                className="mt-8 w-full max-w-xs"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: 0.1 + navItems.length * 0.06 + 0.05, duration: 0.4 }}
+              >
+                <Link
+                  href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block w-full text-center py-3.5 bg-apollo-orange text-white font-display font-bold text-sm tracking-wide uppercase transition-all duration-300 active:scale-95"
+                >
+                  Book Free Trial
+                </Link>
+              </motion.div>
+            </nav>
+
+            {/* Bottom contact line */}
+            <motion.div
+              className="pb-10 pt-4 text-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <a
+                href="https://wa.me/447521216772"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs font-display tracking-wider uppercase text-apollo-muted hover:text-apollo-teal transition-colors"
+              >
+                WhatsApp Us →
+              </a>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   )
 }
