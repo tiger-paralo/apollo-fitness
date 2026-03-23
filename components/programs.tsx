@@ -134,7 +134,7 @@ export function Programs() {
             Programs Built<br />For Results
           </h2>
           <p className="text-apollo-muted text-lg md:ml-auto md:max-w-md">
-            Three ways to train. All of them coached. All of them capped at 8.
+            Three ways to train. All of them coached. 1:8 coach-to-client ratio.
           </p>
         </motion.div>
 
