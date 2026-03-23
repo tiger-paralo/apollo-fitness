@@ -31,7 +31,7 @@ const ROW_1: MediaItem[] = [
   { type: 'video', src: '/videos/ig/reel-04.mp4', alt: 'S&C team workout' },
   { type: 'image', src: '/images/cable-crossover.jpg', alt: 'Cable crossover training' },
   { type: 'image', src: '/images/apollo-rack.jpg', alt: 'Apollo rack setup' },
-  { type: 'image', src: '/images/pic3.jpeg', alt: 'Apollo Fitness session' },
+  { type: 'video', src: '/videos/ig/reel-05.mp4', alt: 'Burpee or best dance move challenge' },
 ]
 
 const ROW_2: MediaItem[] = [
