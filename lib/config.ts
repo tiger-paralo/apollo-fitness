@@ -35,7 +35,7 @@ export const siteConfig = {
  * Toggle features on/off without touching component code.
  */
 export const features = {
-  smoothScroll: true,
+  smoothScroll: false,
   darkMode: true,
 } as const;
 

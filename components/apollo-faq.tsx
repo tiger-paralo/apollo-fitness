@@ -46,12 +46,12 @@ export function FAQ() {
   };
 
   return (
-    <section id="faq" className="py-24 bg-gray-50 dark:bg-gray-900">
+    <section id="faq" className="py-16 md:py-20 bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-4xl px-6 sm:px-12 lg:px-24">
         {/* Section Header */}
         <motion.div
           className="text-center mb-16"
-          initial={{ y: 30, opacity: 0 }}
+          initial={{ y: 30, opacity: 1 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
           viewport={{ once: true }}
@@ -70,7 +70,7 @@ export function FAQ() {
             <motion.div
               key={index}
               className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden"
-              initial={{ y: 30, opacity: 0 }}
+              initial={{ y: 30, opacity: 1 }}
               whileInView={{ y: 0, opacity: 1 }}
               transition={{ 
                 duration: 0.6, 
@@ -127,7 +127,7 @@ export function FAQ() {
         {/* CTA Section */}
         <motion.div
           className="mt-16 text-center"
-          initial={{ y: 20, opacity: 0 }}
+          initial={{ y: 20, opacity: 1 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.3 }}
           viewport={{ once: true }}

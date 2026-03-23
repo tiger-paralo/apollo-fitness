@@ -29,14 +29,14 @@ export function Footer() {
           <div className="lg:col-span-2">
             <motion.div
               className="mb-6"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
               <div className="relative h-12 w-40 mb-4">
                 <Image
-                  src="/images/apollo-logo.jpg"
+                  src="/apollo-logo-transparent.png"
                   alt="Apollo Fitness Studio Logo"
                   fill
                   className="object-contain object-left"
@@ -47,7 +47,7 @@ export function Footer() {
             
             <motion.p
               className="text-gray-300 mb-6 max-w-md"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               viewport={{ once: true }}
@@ -59,7 +59,7 @@ export function Footer() {
             {/* Social Media */}
             <motion.div
               className="flex items-center space-x-4"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 1, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               viewport={{ once: true }}
@@ -68,10 +68,11 @@ export function Footer() {
                 href="https://www.instagram.com/apollofitnessstudio"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-gray-800 hover:bg-purple-600 rounded-full flex items-center justify-center transition-colors duration-300"
+                className="w-10 h-10 bg-gray-800 hover:bg-gradient-to-br hover:from-purple-600 hover:via-pink-500 hover:to-orange-400 rounded-full flex items-center justify-center transition-all duration-300"
+                aria-label="Follow us on Instagram"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987C18.634 23.974 24 18.607 24 11.987 24 5.367 18.634.001 12.017.001zm5.082 7.878l.004.142c.006 5.398-4.363 9.771-9.758 9.771-1.94 0-3.743-.569-5.256-1.547.268.031.541.047.815.047 1.601 0 3.074-.547 4.241-1.464-1.497-.028-2.758-1.018-3.192-2.377.211.04.424.062.644.062.312 0 .614-.042.901-.119-1.564-.314-2.743-1.696-2.743-3.354v-.043c.46.256.986.409 1.544.427-.919-.615-1.524-1.664-1.524-2.855 0-.628.167-1.218.461-1.724 1.687 2.068 4.207 3.427 7.047 3.567-.058-.251-.089-.512-.089-.781 0-1.892 1.536-3.428 3.428-3.428.986 0 1.877.417 2.503 1.085.78-.153 1.515-.438 2.177-.831-.256.8-.799 1.47-1.506 1.894.693-.083 1.354-.266 1.97-.538-.459.688-1.04 1.289-1.709 1.773z"/>
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
                 </svg>
               </a>
             </motion.div>
@@ -79,7 +80,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
             viewport={{ once: true }}
@@ -101,7 +102,7 @@ export function Footer() {
 
           {/* Contact Info */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 1, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
             viewport={{ once: true }}
@@ -132,7 +133,7 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <motion.p
               className="text-gray-400 text-sm mb-4 sm:mb-0"
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.5 }}
               viewport={{ once: true }}
@@ -142,7 +143,7 @@ export function Footer() {
             
             <motion.div
               className="flex items-center space-x-6"
-              initial={{ opacity: 0 }}
+              initial={{ opacity: 1 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.6 }}
               viewport={{ once: true }}

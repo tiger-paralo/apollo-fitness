@@ -54,9 +54,9 @@ export function Header() {
               whileHover={{ scale: 1.05 }}
               onClick={() => handleNavClick("#hero")}
             >
-              <div className="relative h-10 w-32 md:h-12 md:w-36">
+              <div className="relative h-12 w-40 md:h-16 md:w-48">
                 <Image
-                  src="/images/apollo-logo.jpg"
+                  src="/apollo-logo-transparent.png"
                   alt="Apollo Fitness Studio Logo"
                   fill
                   className="object-contain"
@@ -125,7 +125,7 @@ export function Header() {
         {isMobileMenuOpen && (
           <motion.div
             className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-lg"
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 1, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
           >

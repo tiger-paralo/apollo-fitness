@@ -24,26 +24,22 @@ export function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Send via mailto as a simple, reliable approach
+    const subject = encodeURIComponent(`Website enquiry from ${formData.name}`);
+    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
+    window.location.href = `mailto:apollofitnessstudio@gmail.com?subject=${subject}&body=${body}`;
     
-    console.log("Form submitted:", formData);
     setIsSubmitting(false);
-    
-    // Reset form
     setFormData({ name: "", email: "", message: "" });
-    
-    // Show success message (you can implement this)
-    alert("Thank you for your message! We'll get back to you soon.");
   };
 
   return (
-    <section id="contact" className="py-24 bg-gray-50 dark:bg-gray-900">
+    <section id="contact" className="py-16 md:py-20 bg-gray-50 dark:bg-gray-900">
       <div className="mx-auto max-w-7xl px-6 sm:px-12 lg:px-24">
         {/* Section Header */}
         <motion.div
           className="text-center mb-16"
-          initial={{ y: 30, opacity: 0 }}
+          initial={{ y: 30, opacity: 1 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
           viewport={{ once: true }}
@@ -65,7 +61,7 @@ export function Contact() {
           {/* Contact Form */}
           <motion.div
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-gray-700"
-            initial={{ x: -50, opacity: 0 }}
+            initial={{ x: -50, opacity: 1 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
             viewport={{ once: true }}
@@ -152,17 +148,8 @@ export function Contact() {
                 )}
               </motion.button>
 
-              {/* reCAPTCHA Notice */}
               <p className="text-xs text-gray-500 dark:text-gray-400 text-center">
-                This site is protected by reCAPTCHA and the Google{" "}
-                <a href="https://policies.google.com/privacy" className="text-teal-600 hover:underline">
-                  Privacy Policy
-                </a>{" "}
-                and{" "}
-                <a href="https://policies.google.com/terms" className="text-teal-600 hover:underline">
-                  Terms of Service
-                </a>{" "}
-                apply.
+                This will open your email client to send the message directly.
               </p>
             </form>
           </motion.div>
@@ -170,7 +157,7 @@ export function Contact() {
           {/* Contact Info & Map */}
           <motion.div
             className="space-y-8"
-            initial={{ x: 50, opacity: 0 }}
+            initial={{ x: 50, opacity: 1 }}
             whileInView={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1], delay: 0.2 }}
             viewport={{ once: true }}
@@ -213,9 +200,14 @@ export function Contact() {
                       Braywick Road<br />
                       Maidenhead SL6 1BN, UK
                     </p>
-                    <button className="mt-2 text-teal-600 dark:text-teal-400 hover:underline font-medium">
-                      Get directions
-                    </button>
+                    <a 
+                      href="https://www.google.com/maps/dir/?api=1&destination=Apollo+Fitness+Studio+Braywick+Road+Maidenhead+SL6+1BN"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-2 inline-block text-teal-600 dark:text-teal-400 hover:underline font-medium"
+                    >
+                      Get directions →
+                    </a>
                   </div>
                 </div>
 
@@ -255,22 +247,19 @@ export function Contact() {
               </p>
             </div>
 
-            {/* Map Placeholder */}
+            {/* Embedded Map */}
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-              <div className="aspect-[4/3] bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-700 dark:to-gray-800 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-4 bg-gray-300 dark:bg-gray-600 rounded-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-gray-600 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Google Maps will be embedded here
-                  </p>
-                </div>
-              </div>
-            </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2489.5!2d-0.7134!3d51.5168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sBraywick+Road%2C+Maidenhead+SL6+1BN!5e0!3m2!1sen!2suk!4v1"
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Apollo Fitness Studio location"
+                className="w-full"
+              /></div>
           </motion.div>
         </div>
       </div>
