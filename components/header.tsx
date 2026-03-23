@@ -47,7 +47,6 @@ export function Header() {
   }, [])
 
   const navItems = [
-    { label: 'Why Apollo', section: 'why' },
     { label: 'Programs', section: 'programs' },
     { label: 'Coaches', section: 'coaches' },
     { label: 'Schedule', section: 'schedule' },

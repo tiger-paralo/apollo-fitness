@@ -39,7 +39,7 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  scroll-behavior: smooth;
+  /* scroll-behavior handled via JS — CSS smooth scroll causes autoscroll on hash URLs */
 }
 
 body {
