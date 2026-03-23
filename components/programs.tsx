@@ -146,12 +146,11 @@ export function Programs() {
         </div>
 
         {/* Extra image strip below */}
-        <div className="mt-2 grid grid-cols-2 md:grid-cols-4 gap-2">
+        <div className="mt-2 grid grid-cols-3 gap-2">
           {[
-            { src: '/images/apollo-rack.jpg', alt: 'Apollo branded rack with dumbbells' },
-            { src: '/images/pic3.jpeg', alt: 'Training at Apollo Fitness' },
             { src: '/images/hero-rower.jpg', alt: 'Rower workout at Apollo' },
             { src: '/images/pt.jpeg', alt: 'Personal training session' },
+            { src: '/images/facility.webp', alt: 'Apollo Fitness facility' },
           ].map((img, i) => (
             <motion.div
               key={img.src}
