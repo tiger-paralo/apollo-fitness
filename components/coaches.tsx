@@ -11,6 +11,7 @@ const coaches = [
     image: '/images/alex-poon.jpg',
     alt: 'Coach Alex — The Programmer at Apollo Fitness Studio',
     accent: 'text-apollo-teal',
+    accentBg: 'bg-apollo-teal/10',
     bio: 'The engine behind Apollo\'s programming. Alex designs every WOD and S&C session with one goal: making you stronger than yesterday. Functional fitness obsessed, Hyrox competitor, and firm believer that the best results come from consistent effort — not shortcuts.'
   },
   {
@@ -20,6 +21,7 @@ const coaches = [
     image: '/images/alex-pic.png',
     alt: 'Coach Alex — The Engine at Apollo Fitness Studio',
     accent: 'text-apollo-orange',
+    accentBg: 'bg-apollo-orange/10',
     bio: 'Alex brings the energy and the precision. With a sharp eye for form and a coaching style that pushes you just far enough, Alex makes sure nobody phones it in — and nobody gets left behind. Your biggest cheerleader and your strictest critic, in the best way.'
   }
 ]
@@ -30,47 +32,55 @@ export function Coaches() {
   return (
     <section ref={sectionRef} id="coaches" className="py-28 md:py-36">
       <div className="container mx-auto max-w-6xl px-6">
-        {/* Header */}
-        <div className="mb-16 reveal">
-          <span className="font-display font-medium text-xs tracking-widest uppercase text-apollo-teal mb-4 block">
-            Your Coaches
-          </span>
-          <h2 className="font-display font-bold text-heading-lg uppercase tracking-tight">
-            The People Behind<br />Your Progress
+        {/* Header — centered */}
+        <div className="coaches-heading mb-20 text-center reveal">
+          <h2 className="font-display font-bold text-heading-lg uppercase tracking-tight mb-4">
+            Meet Your Coaches
           </h2>
+          <p className="text-apollo-muted text-lg max-w-lg mx-auto">
+            Two Alexes. One mission. Every session, every rep — they&apos;re in it with you.
+          </p>
         </div>
 
-        {/* Coaches Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Coaches — full-width alternating layout */}
+        <div className="space-y-16 md:space-y-24">
           {coaches.map((coach, index) => (
-            <div 
+            <div
               key={coach.tagline}
-              className="group grid grid-cols-1 sm:grid-cols-2 border border-white/10 overflow-hidden bg-apollo-card transition-colors duration-400 hover:border-white/20 reveal"
-              style={{ transitionDelay: `${(index + 1) * 0.1}s` }}
+              className={`coach-card grid grid-cols-1 md:grid-cols-5 gap-8 md:gap-12 items-center reveal ${
+                index % 2 !== 0 ? 'md:[direction:rtl]' : ''
+              }`}
+              style={{ transitionDelay: `${index * 0.15}s` }}
             >
-              {/* Image */}
-              <div className="relative aspect-[3/4] sm:aspect-auto sm:min-h-80 overflow-hidden">
+              {/* Image — takes 3 cols */}
+              <div className="md:col-span-3 relative aspect-[4/5] md:aspect-[3/4] overflow-hidden">
                 <Image
                   src={coach.image}
                   alt={coach.alt}
                   fill
-                  className="object-cover object-top transition-transform duration-600 group-hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="coach-img object-cover object-top"
+                  sizes="(max-width: 768px) 100vw, 60vw"
                 />
+                {/* Gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-apollo-black via-transparent to-transparent opacity-60" />
+                {/* Tagline overlay */}
+                <div className="absolute bottom-6 left-6 md:bottom-10 md:left-10">
+                  <span className={`inline-block px-4 py-2 ${coach.accentBg} ${coach.accent} font-display font-bold text-xs tracking-widest uppercase`}>
+                    {coach.tagline}
+                  </span>
+                </div>
               </div>
 
-              {/* Info */}
-              <div className="p-8 flex flex-col justify-center">
-                <span className={`font-display font-bold text-xs tracking-widest uppercase ${coach.accent} mb-3`}>
-                  {coach.tagline}
-                </span>
-                <h3 className="font-display font-bold text-3xl uppercase mb-2">
+              {/* Info — takes 2 cols */}
+              <div className={`md:col-span-2 ${index % 2 !== 0 ? 'md:[direction:ltr]' : ''}`}>
+                <h3 className="font-display font-bold text-4xl md:text-5xl uppercase mb-2">
                   Coach {coach.name}
                 </h3>
-                <div className="font-display text-sm tracking-wide uppercase text-apollo-muted mb-5">
+                <div className="font-display text-sm tracking-wide uppercase text-apollo-muted mb-6">
                   {coach.role}
                 </div>
-                <p className="text-apollo-muted text-sm leading-relaxed">
+                <div className="w-12 h-px bg-apollo-teal mb-6" />
+                <p className="text-apollo-muted text-base leading-relaxed">
                   {coach.bio}
                 </p>
               </div>

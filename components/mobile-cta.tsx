@@ -20,11 +20,14 @@ export function MobileCTA() {
   }, [])
 
   return (
-    <div className={`fixed bottom-5 left-4 right-4 z-50 md:hidden transition-all duration-400 pointer-events-none ${
-      isVisible 
-        ? 'opacity-100 translate-y-0 pointer-events-auto' 
-        : 'opacity-0 translate-y-full'
-    }`}>
+    <div
+      className={`fixed bottom-0 left-0 right-0 z-50 md:hidden transition-all duration-400 pointer-events-none px-4 pt-3 ${
+        isVisible
+          ? 'opacity-100 translate-y-0 pointer-events-auto'
+          : 'opacity-0 translate-y-full'
+      }`}
+      style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+    >
       <Link
         href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
         className="flex items-center justify-center w-full py-4 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase border-none cursor-pointer transition-all duration-300 hover:bg-apollo-orange-hover shadow-lg shadow-apollo-orange/40"

@@ -9,8 +9,11 @@ export function useReveal() {
     const el = ref.current
     if (!el) return
 
-    const reveals = el.querySelectorAll('.reveal')
+    const reveals = el.querySelectorAll('.reveal, .reveal-scale')
     if (reveals.length === 0) return
+
+    // Respect reduced motion — keep everything visible
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     // Mark section as JS-ready so CSS can safely hide .reveal elements
     el.classList.add('reveal-ready')
@@ -24,15 +27,12 @@ export function useReveal() {
           }
         })
       },
-      { threshold: 0.01, rootMargin: '50px 0px 0px 0px' }
+      { threshold: 0.1 }
     )
 
-    // Observe immediately — IntersectionObserver fires for initial state
-    reveals.forEach((el) => observer.observe(el))
+    reveals.forEach((r) => observer.observe(r))
 
-    return () => {
-      observer.disconnect()
-    }
+    return () => observer.disconnect()
   }, [])
 
   return ref

@@ -1,6 +1,7 @@
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
 import { WhyDifferent } from "@/components/why-different";
+import { Marquee } from "@/components/marquee";
 import { Programs } from "@/components/programs";
 import { Coaches } from "@/components/coaches";
 import { Schedule } from "@/components/schedule";
@@ -29,6 +30,7 @@ export default function HomePage(): ReactNode {
       <main className="flex-1">
         <Hero />
         <WhyDifferent />
+        <Marquee />
         <Programs />
         <Coaches />
         <Schedule />

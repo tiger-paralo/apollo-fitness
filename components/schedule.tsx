@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useReveal } from '@/hooks/useReveal'
 import { useState } from 'react'
+import { useReveal } from '@/hooks/useReveal'
 
 type ClassType = 'WOD' | 'S&C' | 'Pilates' | 'Yoga'
 
@@ -110,18 +110,18 @@ export function Schedule() {
   const [openDay, setOpenDay] = useState<number>(0)
 
   return (
-    <section 
-      ref={sectionRef} 
-      id="schedule" 
+    <section
+      ref={sectionRef}
+      id="schedule"
       className="relative py-28 md:py-36 bg-apollo-card overflow-hidden"
     >
       {/* Background accent */}
       <div className="absolute -top-32 -right-10 w-[28rem] h-[28rem] bg-gradient-radial from-apollo-orange/4 to-transparent pointer-events-none" />
-      
+
       <div className="container mx-auto max-w-6xl px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           {/* Content */}
-          <div className="reveal">
+          <div className="schedule-content reveal">
             <span className="font-display font-medium text-xs tracking-widest uppercase text-apollo-teal mb-4 block">
               Class Schedule
             </span>
@@ -133,7 +133,7 @@ export function Schedule() {
             </p>
 
             {/* First Week Free Offer */}
-            <div className="bg-apollo-black border border-apollo-orange/20 p-8 mb-8">
+            <div className="free-week-box bg-apollo-black border border-apollo-orange/20 p-8 mb-8 reveal" style={{ transitionDelay: '0.15s' }}>
               <div className="font-stat text-4xl text-apollo-orange leading-none mb-2">
                 First Week Free
               </div>
@@ -160,8 +160,8 @@ export function Schedule() {
             </div>
           </div>
 
-          {/* Timetable — Accordion on mobile, grid on desktop */}
-          <div className="reveal" style={{ transitionDelay: '0.1s' }}>
+          {/* Timetable */}
+          <div className="schedule-table reveal" style={{ transitionDelay: '0.1s' }}>
             {/* Mobile Accordion */}
             <div className="lg:hidden space-y-2">
               {schedule.map((day, idx) => (

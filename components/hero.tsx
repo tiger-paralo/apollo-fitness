@@ -1,9 +1,44 @@
 'use client'
 
 import Link from 'next/link'
-import dynamic from 'next/dynamic'
+import { useEffect, useRef, useState } from 'react'
+import StaggeredText from '@/components/react-bits/staggered-text'
 
-const SilkWaves = dynamic(() => import('@/components/react-bits/silk-waves'), { ssr: false })
+function LazyVimeoVideo() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [shouldLoad, setShouldLoad] = useState(false)
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el) return
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        setShouldLoad(entries[0]?.isIntersecting ?? false)
+      },
+      { threshold: 0.1, rootMargin: '200px' }
+    )
+
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={containerRef} className="absolute inset-0">
+      {shouldLoad && (
+        <iframe
+          src="https://player.vimeo.com/video/1101338417?h=cc9df9cc81&background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+          frameBorder="0"
+          allow="autoplay; fullscreen"
+          allowFullScreen
+          loading="lazy"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-auto min-w-full h-full object-cover pointer-events-none"
+          style={{ aspectRatio: '9/16' }}
+        />
+      )}
+    </div>
+  )
+}
 
 export function Hero() {
   const scrollToPrograms = () => {
@@ -14,33 +49,28 @@ export function Hero() {
   }
 
   return (
-    <section className="hero relative min-h-screen flex items-center overflow-hidden">
-      {/* Video Background — Mobile only */}
+    <section id="hero" className="hero relative min-h-screen flex items-center overflow-hidden">
+      {/* Video Background — Mobile only (lazy-loaded, unmounts when offscreen) */}
       <div className="absolute inset-0 z-0 md:hidden">
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-apollo-black/40 via-apollo-black/60 to-apollo-black/95" />
-        <iframe
-          src="https://player.vimeo.com/video/1101338417?h=cc9df9cc81&background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
-          frameBorder="0"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-auto min-w-full h-full object-cover pointer-events-none"
-          style={{ aspectRatio: '9/16' }}
-        />
+        <LazyVimeoVideo />
       </div>
 
-      {/* Silk Waves Background — Desktop only */}
-      <div className="absolute inset-0 z-0 hidden md:block">
-        <SilkWaves
-          speed={3}
-          scale={1.5}
-          colors={['#0A0A0A', '#1a2a25', '#57B5A0', '#0A0A0A', '#2a1a10', '#FF6B35']}
-          opacity={0.6}
+      {/* Ambient Gradient Background — Desktop only */}
+      <div className="absolute inset-0 z-0 hidden md:block overflow-hidden bg-apollo-black">
+        <div
+          className="absolute -top-1/3 -left-1/4 w-2/3 h-2/3 rounded-full bg-apollo-teal/[0.07] blur-[100px]"
+          style={{ animation: 'hero-glow 12s ease-in-out infinite' }}
+        />
+        <div
+          className="absolute -bottom-1/3 -right-1/4 w-2/3 h-2/3 rounded-full bg-apollo-orange/[0.05] blur-[100px]"
+          style={{ animation: 'hero-glow 12s ease-in-out infinite reverse' }}
         />
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-apollo-black/80 via-apollo-black/50 to-apollo-black/70" />
       </div>
 
       {/* Noise overlay */}
-      <div 
+      <div
         className="absolute inset-0 z-20 opacity-[0.03] pointer-events-none"
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
@@ -60,11 +90,43 @@ export function Hero() {
             </span>
           </div>
 
-          {/* Main Headline */}
-          <h1 className="font-display font-bold text-hero uppercase mb-6 leading-[1.05] tracking-tight">
-            <span className="block">Build Your</span>
+          {/* Main Headline — StaggeredText */}
+          <h1 className="font-display font-bold text-hero uppercase leading-[1.05] tracking-tight mb-6">
+            <StaggeredText
+              text="Build Your"
+              as="span"
+              className="block"
+              segmentBy="words"
+              delay={100}
+              duration={0.7}
+              direction="bottom"
+              blur={true}
+              staggerDirection="forward"
+            />
             <span className="block">
-              <em className="text-apollo-orange not-italic">Strongest</em> Self
+              <StaggeredText
+                text="Strongest"
+                as="span"
+                className="text-apollo-orange"
+                segmentBy="words"
+                delay={100}
+                duration={0.7}
+                direction="bottom"
+                blur={true}
+                staggerDirection="forward"
+              />
+              {' '}
+              <StaggeredText
+                text="Self"
+                as="span"
+                className=""
+                segmentBy="words"
+                delay={100}
+                duration={0.7}
+                direction="bottom"
+                blur={true}
+                staggerDirection="forward"
+              />
             </span>
           </h1>
 
