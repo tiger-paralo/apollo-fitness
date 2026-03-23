@@ -67,6 +67,8 @@ export function Hero() {
       {/* Video Background — Mobile only (lazy-loaded, unmounts when offscreen) */}
       <div className="absolute inset-0 z-0 md:hidden">
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-apollo-black/40 via-apollo-black/60 to-apollo-black/95" />
+        {/* Extra top gradient for logo/nav contrast against bright video frames */}
+        <div className="absolute inset-x-0 top-0 h-32 z-10 bg-gradient-to-b from-apollo-black/80 to-transparent" />
         <LazyVimeoVideo />
       </div>
 
@@ -89,6 +91,8 @@ export function Hero() {
         {/* Multi-layer gradient overlay */}
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-apollo-black via-apollo-black/80 to-transparent" />
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-apollo-black via-transparent to-apollo-black/40" />
+        {/* Extra top gradient for logo contrast */}
+        <div className="absolute inset-x-0 top-0 h-32 z-10 bg-gradient-to-b from-apollo-black/70 to-transparent" />
         {/* Orange accent glow */}
         <div className="absolute bottom-0 left-0 w-1/2 h-1/3 z-10 bg-gradient-to-t from-apollo-orange/[0.06] to-transparent" />
       </div>
