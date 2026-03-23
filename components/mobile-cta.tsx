@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 export function MobileCTA() {
   const [isVisible, setIsVisible] = useState(false)
+  const btnRef = useRef<HTMLButtonElement>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,14 +30,21 @@ export function MobileCTA() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  if (!isVisible) return null
-
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-50 md:hidden px-4 pt-3"
-      style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+      style={{
+        paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))',
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(100%)',
+        transition: 'opacity 0.35s ease, transform 0.35s ease',
+        pointerEvents: isVisible ? 'auto' : 'none',
+        visibility: isVisible ? 'visible' : 'hidden',
+        transitionProperty: 'opacity, transform',
+      }}
     >
       <button
+        ref={btnRef}
         type="button"
         onClick={() => {
           const trial = document.getElementById('trial')
