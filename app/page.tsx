@@ -34,13 +34,13 @@ export default function HomePage(): ReactNode {
       <main className="flex-1">
         <Hero />
         <WhyDifferent />
+        <InstagramFeed />
         <Marquee />
         <Programs />
         <Coaches />
         <Schedule />
         <Pricing />
         <TrialForm />
-        <InstagramFeed />
       </main>
       <Footer />
       <MobileCTA />
