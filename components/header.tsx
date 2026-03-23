@@ -36,7 +36,7 @@ export function Header() {
           {/* Logo — wide wordmark, no extra text */}
           <Link href="#" className="flex items-center">
             <Image
-              src="/images/apollo-logo.jpg"
+              src="/images/apollo-logo.png"
               alt="Apollo Fitness Studio"
               width={180}
               height={102}
