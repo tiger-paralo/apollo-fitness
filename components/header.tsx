@@ -59,6 +59,13 @@ export function Header() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
+        {/* Fog gradient beneath nav */}
+        <div
+          className={`absolute inset-x-0 -bottom-16 h-16 bg-gradient-to-b from-apollo-black/60 to-transparent pointer-events-none transition-opacity duration-500 ${
+            isScrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
         <div className="container mx-auto max-w-6xl px-6">
           <div className="flex items-center justify-between">
             {/* Logo */}
