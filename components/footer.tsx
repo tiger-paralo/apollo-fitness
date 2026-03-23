@@ -12,7 +12,7 @@ export function Footer() {
     <footer
       ref={ref}
       id="contact"
-      className="border-t border-white/5 pt-14 pb-8"
+      className="border-t border-white/5 pt-10 pb-6"
     >
       <div className="container mx-auto max-w-6xl px-6">
         {/* Main Footer Grid */}

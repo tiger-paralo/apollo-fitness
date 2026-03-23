@@ -128,7 +128,7 @@ export function Coaches() {
       <div className="container mx-auto max-w-6xl px-6">
         {/* Header */}
         <motion.div
-          className="mb-16 text-center"
+          className="mb-10 text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}

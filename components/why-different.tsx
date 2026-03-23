@@ -45,7 +45,7 @@ export function WhyDifferent() {
   const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section ref={ref} id="why" className="py-20 md:py-28 border-t border-white/5">
+    <section ref={ref} id="why" className="py-14 md:py-20 border-t border-white/5">
       <div className="container mx-auto max-w-6xl px-6">
         {/* Header */}
         <motion.div
@@ -72,7 +72,7 @@ export function WhyDifferent() {
               transition={{ duration: 0.6, delay: index * 0.15 }}
             >
               <SpotlightCard
-                className="bg-apollo-black p-10 md:p-14 h-full transition-colors duration-400 hover:bg-apollo-card group cursor-default"
+                className="bg-apollo-black p-8 md:p-10 h-full transition-colors duration-400 hover:bg-apollo-card group cursor-default"
                 spotlightColor={stat.spotlightColor}
               >
                 <div className="font-stat text-stat text-apollo-text mb-2">
