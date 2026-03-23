@@ -4,6 +4,7 @@ import { WhyDifferent } from "@/components/why-different";
 import { Marquee } from "@/components/marquee";
 import { Programs } from "@/components/programs";
 import { Coaches } from "@/components/coaches";
+import { Facility } from "@/components/facility";
 import { Schedule } from "@/components/schedule";
 import { Pricing } from "@/components/pricing";
 import { TrialForm } from "@/components/trial-form";
@@ -37,6 +38,7 @@ export default function HomePage(): ReactNode {
         <Marquee />
         <Programs />
         <Coaches />
+        <Facility />
         <Schedule />
         <Pricing />
         <TrialForm />
