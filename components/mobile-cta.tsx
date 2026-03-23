@@ -29,7 +29,7 @@ export function MobileCTA() {
       style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
     >
       <Link
-        href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
+        href="#trial" onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
         className="flex items-center justify-center w-full py-4 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase border-none cursor-pointer transition-all duration-300 hover:bg-apollo-orange-hover shadow-lg shadow-apollo-orange/40"
       >
         Book Free Trial →

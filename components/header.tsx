@@ -89,7 +89,7 @@ export function Header() {
             {/* CTA Button — Desktop */}
             <div className="hidden md:block">
               <Link
-                href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
+                href="#trial" onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
                 className="group relative inline-flex items-center justify-center px-6 py-2.5 bg-apollo-orange text-apollo-text font-display font-bold text-xs tracking-wide uppercase overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-apollo-orange/30"
               >
                 <span className="relative z-10">Book Free Trial</span>
@@ -154,8 +154,8 @@ export function Header() {
                 transition={{ delay: 0.1 + navItems.length * 0.06 + 0.05, duration: 0.4 }}
               >
                 <Link
-                  href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
-                  onClick={() => setMobileMenuOpen(false)}
+                  href="#trial"
+                  onClick={(e) => { e.preventDefault(); setMobileMenuOpen(false); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
                   className="block w-full text-center py-3.5 bg-apollo-orange text-white font-display font-bold text-sm tracking-wide uppercase transition-all duration-300 active:scale-95"
                 >
                   Book Free Trial

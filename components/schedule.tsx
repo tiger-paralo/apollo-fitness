@@ -141,7 +141,7 @@ export function Schedule() {
               </h2>
             </div>
             <Link
-              href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
+              href="#trial" onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
               className="group relative inline-flex items-center justify-center px-6 py-2.5 bg-apollo-orange text-apollo-text font-display font-bold text-xs tracking-wide uppercase overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-apollo-orange/30 shrink-0 self-start sm:self-auto"
             >
               <span className="relative z-10">First Week Free →</span>

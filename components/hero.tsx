@@ -55,8 +55,8 @@ export function Hero() {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
   const contentY = useTransform(scrollYProgress, [0, 0.5], [0, -60])
 
-  const scrollToPrograms = () => {
-    const section = document.getElementById('programs')
+  const scrollToTrial = () => {
+    const section = document.getElementById('trial')
     if (section) {
       section.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }
@@ -181,7 +181,7 @@ export function Hero() {
           >
             <MagneticButton strength={0.15}>
               <Link
-                href="mailto:apollofitnessstudio@gmail.com?subject=Free%20Trial%20Week"
+                href="#trial" onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
                 className="group relative inline-flex items-center justify-center px-10 py-4 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase border-none cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-apollo-orange/40"
               >
                 <span className="relative z-10">Start Your Free Week</span>
@@ -190,7 +190,7 @@ export function Hero() {
             </MagneticButton>
             <MagneticButton strength={0.15}>
               <button
-                onClick={scrollToPrograms}
+                onClick={scrollToTrial}
                 className="group relative inline-flex items-center justify-center px-10 py-4 bg-transparent text-apollo-text font-display font-bold text-sm tracking-wide uppercase border border-white/20 cursor-pointer overflow-hidden transition-all duration-300 hover:border-white/40"
               >
                 <span className="relative z-10">View Programs</span>

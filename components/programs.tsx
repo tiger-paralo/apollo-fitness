@@ -12,7 +12,7 @@ const programs = [
     image: '/images/outdoor-training.jpg',
     alt: 'High-energy WOD session at Apollo Fitness — outdoor group training',
     description: 'Daily workouts engineered to challenge your strength, endurance, and grit. Scalable for every level. Hyrox-specific sessions every Thursday.',
-    mailto: 'mailto:apollofitnessstudio@gmail.com?subject=WOD%20Classes',
+    mailto: '#trial',
     span: 'md:col-span-2 md:row-span-2',
     aspect: 'aspect-[4/3] md:aspect-auto md:h-full md:min-h-[500px]',
   },
@@ -22,7 +22,7 @@ const programs = [
     image: '/images/cable-crossover.jpg',
     alt: 'Cable crossover strength training at Apollo Fitness',
     description: 'Small group personal training that builds functional strength and real-world performance.',
-    mailto: 'mailto:apollofitnessstudio@gmail.com?subject=S%26C%20Classes',
+    mailto: '#trial',
     span: 'md:col-span-1',
     aspect: 'aspect-[4/3] md:aspect-auto md:h-full',
   },
@@ -32,7 +32,7 @@ const programs = [
     image: '/images/coaching-squat.jpg',
     alt: 'One-on-one personal training at Apollo Fitness',
     description: 'One-on-one sessions tailored entirely to your goals. Whether you\'re rehabbing, competing, or starting fresh.',
-    mailto: 'mailto:apollofitnessstudio@gmail.com?subject=Personal%20Training',
+    mailto: '#trial',
     span: 'md:col-span-1',
     aspect: 'aspect-[4/3] md:aspect-auto md:h-full',
   },
@@ -55,7 +55,7 @@ function ProgramCard({ program, index }: { program: typeof programs[0]; index: n
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 60 }}
       transition={{ duration: 0.7, delay: index * 0.1 }}
     >
-      <Link href={program.mailto} className="block relative h-full">
+      <Link href={program.mailto} onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }} className="block relative h-full">
         {/* Image with parallax */}
         <div className={`relative ${program.aspect} overflow-hidden`}>
           <motion.div className="absolute inset-0" style={{ y: imageY }}>

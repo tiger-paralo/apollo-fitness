@@ -183,7 +183,8 @@ export function Pricing() {
           <p className="text-apollo-subtle text-xs">
             Personal training available separately.{' '}
             <Link
-              href="mailto:apollofitnessstudio@gmail.com?subject=Personal%20Training%20Enquiry"
+              href="#trial"
+              onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
               className="text-apollo-teal hover:text-apollo-teal/80 transition-colors"
             >
               Get in touch →
