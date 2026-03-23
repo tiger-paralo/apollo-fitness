@@ -114,6 +114,14 @@ export function Footer() {
           </div>
         </div>
       </div>
+
+      {/* Bottom bar */}
+      <div className="mt-8 pt-4 border-t border-white/5 flex justify-between items-center text-[11px] text-apollo-muted/50 max-w-6xl mx-auto px-6">
+        <span>© {new Date().getFullYear()} Apollo Fitness Studio</span>
+        <Link href="/privacy-policy" className="hover:text-apollo-muted transition-colors">
+          Privacy Policy
+        </Link>
+      </div>
     </footer>
   )
 }
