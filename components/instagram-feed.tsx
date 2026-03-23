@@ -29,7 +29,7 @@ const ROW_1: MediaItem[] = [
   { type: 'image', src: '/images/coaching-squat.jpg', alt: 'Coaching squat form' },
   { type: 'video', src: '/videos/ig/reel-04.mp4', alt: 'S&C team workout' },
   { type: 'image', src: '/images/cable-crossover.jpg', alt: 'Cable crossover training' },
-  { type: 'image', src: '/images/apollo-rack.jpg', alt: 'Apollo rack setup' },
+  { type: 'image', src: '/images/pull.jpeg', alt: 'Pull-up training' },
   { type: 'video', src: '/videos/ig/reel-05.mp4', alt: 'Burpee or best dance move challenge' },
 ]
 
@@ -69,6 +69,10 @@ function MediaCard({ item }: { item: MediaItem }) {
           muted
           loop
           playsInline
+          preload="auto"
+          webkit-playsinline="true"
+          x-webkit-airplay="deny"
+          disablePictureInPicture
           className="absolute inset-0 w-full h-full object-cover saturate-[0.6] brightness-75 group-hover/card:saturate-100 group-hover/card:brightness-100 transition-all duration-500"
         />
       ) : (
@@ -181,18 +185,11 @@ export function InstagramFeed() {
         </Link>
       </motion.div>
 
-      {/* Scrolling rows — click anywhere opens IG */}
-      <Link
-        href="https://www.instagram.com/apollofitnessstudio"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block cursor-pointer"
-      >
-        <div className="space-y-2">
-          <MarqueeRow items={ROW_1} baseVelocity={-40} />
-          <MarqueeRow items={ROW_2} baseVelocity={40} />
-        </div>
-      </Link>
+      {/* Scrolling rows */}
+      <div className="space-y-2">
+        <MarqueeRow items={ROW_1} baseVelocity={-40} />
+        <MarqueeRow items={ROW_2} baseVelocity={40} />
+      </div>
     </section>
   )
 }

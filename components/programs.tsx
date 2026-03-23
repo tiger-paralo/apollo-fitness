@@ -83,25 +83,28 @@ function ProgramCard({ program, index }: { program: typeof programs[0]; index: n
               {program.id}
             </motion.div>
 
-            <h3 className="font-display font-bold text-2xl md:text-3xl uppercase mb-2 transition-transform duration-300 group-hover:translate-x-2">
-              {program.title}
-            </h3>
-            <p className={`text-apollo-muted text-sm leading-relaxed mb-4 ${index === 0 ? 'max-w-md' : 'max-w-xs'}`}>
-              {program.description}
-            </p>
+            {/* Glassmorphic text card */}
+            <div className="bg-apollo-black/50 backdrop-blur-md border border-white/[0.06] rounded-lg p-4 md:p-5">
+              <h3 className="font-display font-bold text-2xl md:text-3xl uppercase mb-2 transition-transform duration-300 group-hover:translate-x-2">
+                {program.title}
+              </h3>
+              <p className={`text-apollo-muted text-sm leading-relaxed mb-4 ${index === 0 ? 'max-w-md' : 'max-w-xs'}`}>
+                {program.description}
+              </p>
 
-            {/* CTA arrow */}
-            <div className="flex items-center gap-2 text-apollo-orange font-display font-medium text-sm tracking-wider uppercase">
-              <span className="transition-all duration-300 group-hover:tracking-widest">Get Started</span>
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-2"
-              >
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
+              {/* CTA arrow */}
+              <div className="flex items-center gap-2 text-apollo-orange font-display font-medium text-sm tracking-wider uppercase">
+                <span className="transition-all duration-300 group-hover:tracking-widest">Get Started</span>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-2"
+                >
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </div>
             </div>
           </div>
 
@@ -147,7 +150,7 @@ export function Programs() {
           {[
             { src: '/images/apollo-rack.jpg', alt: 'Apollo branded rack with dumbbells' },
             { src: '/images/pic3.jpeg', alt: 'Training at Apollo Fitness' },
-            { src: '/images/pull.jpeg', alt: 'Pull-up training on the rig' },
+            { src: '/images/hero-rower.jpg', alt: 'Rower workout at Apollo' },
             { src: '/images/pt.jpeg', alt: 'Personal training session' },
           ].map((img, i) => (
             <motion.div
