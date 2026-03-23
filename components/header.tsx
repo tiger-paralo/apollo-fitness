@@ -44,6 +44,7 @@ export function Header() {
     { label: 'Coaches', section: 'coaches' },
     { label: 'Schedule', section: 'schedule' },
     { label: 'Pricing', section: 'pricing' },
+    { label: 'Location', section: 'location' },
   ]
 
   return (

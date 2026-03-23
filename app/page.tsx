@@ -8,6 +8,7 @@ import { Schedule } from "@/components/schedule";
 import { Pricing } from "@/components/pricing";
 import { TrialForm } from "@/components/trial-form";
 import { InstagramFeed } from "@/components/instagram-feed";
+import { Location } from "@/components/location";
 import { Footer } from "@/components/footer";
 import { MobileCTA } from "@/components/mobile-cta";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
@@ -40,6 +41,7 @@ export default function HomePage(): ReactNode {
         <Coaches />
         <Schedule />
         <Pricing />
+        <Location />
         <TrialForm />
       </main>
       <Footer />
