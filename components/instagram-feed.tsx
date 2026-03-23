@@ -26,6 +26,7 @@ type MediaItem = {
 const ROW_1: MediaItem[] = [
   { type: 'video', src: '/videos/ig/reel-01.mp4', alt: 'Apollo safe space to get stronger' },
   { type: 'image', src: '/images/outdoor-training.jpg', alt: 'Outdoor group training' },
+  { type: 'video', src: '/videos/ig/reel-03.mp4', alt: 'Sled push training at padel club' },
   { type: 'video', src: '/videos/ig/reel-04.mp4', alt: 'S&C team workout' },
   { type: 'image', src: '/images/pull.jpeg', alt: 'Pull-up training' },
   { type: 'image', src: '/images/pic3.jpeg', alt: 'Training at Apollo' },

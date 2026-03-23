@@ -14,7 +14,7 @@ const programs = [
     description: 'Daily workouts engineered to challenge your strength, endurance, and grit. Scalable for every level. Hyrox-specific sessions every Thursday.',
     mailto: '#trial',
     span: 'md:col-span-2 md:row-span-2',
-    aspect: 'aspect-[4/3] md:aspect-auto md:h-full md:min-h-[500px]',
+    aspect: 'aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:h-full md:min-h-[500px]',
   },
   {
     id: '02',
@@ -24,7 +24,7 @@ const programs = [
     description: 'Small group personal training that builds functional strength and real-world performance.',
     mailto: '#trial',
     span: 'md:col-span-1',
-    aspect: 'aspect-[4/3] md:aspect-auto md:h-full',
+    aspect: 'aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:h-full',
   },
   {
     id: '03',
@@ -34,7 +34,7 @@ const programs = [
     description: 'One-on-one sessions tailored entirely to your goals. Whether you\'re rehabbing, competing, or starting fresh.',
     mailto: '#trial',
     span: 'md:col-span-1',
-    aspect: 'aspect-[4/3] md:aspect-auto md:h-full',
+    aspect: 'aspect-[3/4] sm:aspect-[4/3] md:aspect-auto md:h-full',
   },
 ]
 
@@ -148,9 +148,9 @@ export function Programs() {
         {/* Extra image strip below */}
         <div className="mt-2 grid grid-cols-3 gap-2">
           {[
-            { src: '/images/hero-rower.jpg', alt: 'Rower workout at Apollo' },
-            { src: '/images/pt.jpeg', alt: 'Personal training session' },
-            { src: '/images/facility.webp', alt: 'Apollo Fitness facility' },
+            { src: '/images/hero-rower.jpg', alt: 'Rower workout at Apollo', position: 'object-top' },
+            { src: '/images/pt.jpeg', alt: 'Personal training session', position: 'object-top' },
+            { src: '/images/facility.webp', alt: 'Apollo Fitness facility', position: 'object-center' },
           ].map((img, i) => (
             <motion.div
               key={img.src}
@@ -163,7 +163,7 @@ export function Programs() {
                 src={img.src}
                 alt={img.alt}
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                className={`object-cover transition-transform duration-700 group-hover:scale-110 ${img.position}`}
                 sizes="(max-width: 768px) 50vw, 25vw"
               />
               <div className="absolute inset-0 bg-apollo-black/40 group-hover:bg-apollo-black/20 transition-colors duration-500" />
