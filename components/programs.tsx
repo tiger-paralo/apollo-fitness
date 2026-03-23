@@ -52,7 +52,7 @@ function ProgramCard({
       <div
         className="relative overflow-hidden rounded-2xl bg-apollo-card border border-white/5 hover:border-white/10 transition-all duration-500 cursor-pointer"
         onClick={() =>
-          document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' })
+          (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })()
         }
       >
         {/* Image — tall portrait crop, object-top to keep heads visible */}

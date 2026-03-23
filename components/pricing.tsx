@@ -184,7 +184,7 @@ export function Pricing() {
             Personal training available separately.{' '}
             <Link
               href="#trial"
-              onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
+              onClick={(e) => { e.preventDefault(); (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })() }}
               className="text-apollo-teal hover:text-apollo-teal/80 transition-colors"
             >
               Get in touch →

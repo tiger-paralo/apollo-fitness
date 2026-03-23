@@ -181,7 +181,7 @@ export function Hero() {
           >
             <MagneticButton strength={0.15}>
               <Link
-                href="#trial" onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
+                href="#trial" onClick={(e) => { e.preventDefault(); (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })() }}
                 className="group relative inline-flex items-center justify-center px-10 py-4 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase border-none cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-apollo-orange/40"
               >
                 <span className="relative z-10">Start Your Free Week</span>

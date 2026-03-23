@@ -1,7 +1,6 @@
 'use client'
 
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 export function MobileCTA() {
   const [isVisible, setIsVisible] = useState(false)
@@ -9,14 +8,33 @@ export function MobileCTA() {
   useEffect(() => {
     const handleScroll = () => {
       const hero = document.getElementById('hero')
-      if (hero) {
-        const heroBottom = hero.offsetTop + hero.offsetHeight
-        setIsVisible(window.scrollY > heroBottom - 200)
+      const trial = document.getElementById('trial')
+
+      if (!hero) return
+
+      const heroBottom = hero.offsetTop + hero.offsetHeight
+      const pastHero = window.scrollY > heroBottom - 200
+
+      // Hide when the trial section is in view (no point showing CTA when they're already there)
+      let atTrial = false
+      if (trial) {
+        const trialRect = trial.getBoundingClientRect()
+        atTrial = trialRect.top < window.innerHeight * 0.6
       }
+
+      setIsVisible(pastHero && !atTrial)
     }
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const scrollToTrial = useCallback(() => {
+    const trial = document.getElementById('trial')
+    if (!trial) return
+    // Offset for fixed header (~60px) so "Book your free trial" heading isn't clipped
+    const y = trial.getBoundingClientRect().top + window.scrollY - 70
+    window.scrollTo({ top: y, behavior: 'smooth' })
   }, [])
 
   return (
@@ -28,12 +46,12 @@ export function MobileCTA() {
       }`}
       style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
     >
-      <Link
-        href="#trial" onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
+      <button
+        onClick={scrollToTrial}
         className="flex items-center justify-center w-full py-4 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase border-none cursor-pointer transition-all duration-300 hover:bg-apollo-orange-hover shadow-lg shadow-apollo-orange/40"
       >
         Book Free Trial →
-      </Link>
+      </button>
     </div>
   )
 }

@@ -104,7 +104,7 @@ export function Header() {
             {/* CTA Button — Desktop */}
             <div className="hidden md:block">
               <Link
-                href="#trial" onClick={(e) => { e.preventDefault(); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
+                href="#trial" onClick={(e) => { e.preventDefault(); (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })() }}
                 className="group relative inline-flex items-center justify-center px-6 py-2.5 bg-apollo-orange text-apollo-text font-display font-bold text-xs tracking-wide uppercase overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-apollo-orange/30"
               >
                 <span className="relative z-10">Book Free Trial</span>
@@ -170,7 +170,7 @@ export function Header() {
               >
                 <Link
                   href="#trial"
-                  onClick={(e) => { e.preventDefault(); setMobileMenuOpen(false); document.getElementById('trial')?.scrollIntoView({ behavior: 'smooth' }) }}
+                  onClick={(e) => { e.preventDefault(); setMobileMenuOpen(false); (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })() }}
                   className="block w-full text-center py-3.5 bg-apollo-orange text-white font-display font-bold text-sm tracking-wide uppercase transition-all duration-300 active:scale-95"
                 >
                   Book Free Trial
