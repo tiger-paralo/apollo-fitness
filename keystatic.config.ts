@@ -1,22 +1,35 @@
 import { config, fields, collection, singleton } from '@keystatic/core'
 
-const isGithubStorage =
-  !!process.env.KEYSTATIC_GITHUB_CLIENT_ID &&
-  !!process.env.KEYSTATIC_GITHUB_CLIENT_SECRET &&
-  !!process.env.KEYSTATIC_SECRET
+// ── Storage mode ──
+// Cloud mode (default): simple email login for the site owner at /keystatic
+// Local mode: for development only — set KEYSTATIC_STORAGE_KIND=local in .env.local
+// Default to local until Keystatic Cloud project is created and env vars are set
+const isLocal = process.env.KEYSTATIC_STORAGE_KIND !== 'cloud'
 
-const storage = isGithubStorage
-  ? ({
-      kind: 'github' as const,
-      repo: {
-        owner: 'tiger-paralo',
-        name: 'apollo-fitness',
-      },
+// ── Conditional image field helper ──
+// Cloud → cloudImage (stored on Keystatic Cloud CDN, drag-and-drop uploads)
+// Local → image (stored in public/ directory)
+function imageField(label: string, opts?: { directory?: string; publicPath?: string; description?: string }) {
+  const desc = opts?.description
+  if (isLocal) {
+    return fields.image({
+      label,
+      ...(desc ? { description: desc } : {}),
+      directory: opts?.directory ?? 'public/images',
+      publicPath: opts?.publicPath ?? '/images/',
     })
-  : ({ kind: 'local' as const })
+  }
+  return fields.cloudImage({
+    label,
+    ...(desc ? { description: desc } : {}),
+  })
+}
 
 export default config({
-  storage,
+  storage: isLocal
+    ? { kind: 'local' as const }
+    : { kind: 'cloud' as const },
+  ...(!isLocal ? { cloud: { project: 'apollo-fitness/apollo-fitness-studio' } } : {}),
   ui: {
     brand: {
       name: 'Apollo Fitness CMS',
@@ -32,10 +45,10 @@ export default config({
         name: fields.slug({ name: { label: 'Name' } }),
         tagline: fields.text({ label: 'Tagline', description: 'e.g. "The Programmer"' }),
         role: fields.text({ label: 'Role / Title', description: 'e.g. "Owner & Head Coach"' }),
-        photo: fields.image({
-          label: 'Photo',
+        photo: imageField('Photo', {
           directory: 'public/images/coaches',
           publicPath: '/images/coaches/',
+          description: 'Upload a portrait photo of the coach',
         }),
         accent: fields.select({
           label: 'Accent colour',
@@ -67,10 +80,10 @@ export default config({
       schema: {
         title: fields.slug({ name: { label: 'Title' } }),
         id: fields.text({ label: 'ID number', description: 'e.g. "01"' }),
-        image: fields.image({
-          label: 'Image',
+        image: imageField('Image', {
           directory: 'public/images/programs',
           publicPath: '/images/programs/',
+          description: 'Upload a class/program photo',
         }),
         imageAlt: fields.text({ label: 'Image alt text' }),
         description: fields.text({ label: 'Description', multiline: true }),
@@ -85,10 +98,10 @@ export default config({
       format: { data: 'json' },
       schema: {
         caption: fields.slug({ name: { label: 'Caption' } }),
-        image: fields.image({
-          label: 'Image',
+        image: imageField('Image', {
           directory: 'public/images/gallery',
           publicPath: '/images/gallery/',
+          description: 'Upload a gallery photo',
         }),
         order: fields.integer({ label: 'Display order', defaultValue: 0 }),
       },
@@ -107,10 +120,10 @@ export default config({
         subheadline: fields.text({ label: 'Subheadline', defaultValue: 'Expert-coached functional fitness. Max 8 per class. No mirrors. No egos. Just progress.' }),
         ctaPrimary: fields.text({ label: 'Primary CTA text', defaultValue: 'Start Your Free Week' }),
         ctaSecondary: fields.text({ label: 'Secondary CTA text', defaultValue: 'View Programs' }),
-        heroImage: fields.image({
-          label: 'Hero background image (desktop)',
+        heroImage: imageField('Hero background image (desktop)', {
           directory: 'public/images',
           publicPath: '/images/',
+          description: 'Upload a wide studio photo for the hero banner',
         }),
         vimeoUrl: fields.text({ label: 'Vimeo video URL (mobile background)', defaultValue: 'https://player.vimeo.com/video/1101338417?h=cc9df9cc81&background=1&autoplay=1&loop=1&byline=0&title=0&muted=1' }),
       },
@@ -208,10 +221,10 @@ export default config({
         instagramUrl: fields.text({ label: 'Instagram URL', defaultValue: 'https://www.instagram.com/apollofitnessstudio' }),
         instagramHandle: fields.text({ label: 'Instagram handle', defaultValue: '@apollofitnessstudio' }),
         googleMapsUrl: fields.text({ label: 'Google Maps URL', defaultValue: 'https://www.google.com/maps/place/Apollo+Fitness+Studio/@51.5132968,-0.7167016,17z/data=!4m6!3m5!1s0x48767d123b6dee05:0x99dbc9d0a38dc59b!8m2!3d51.5132968!4d-0.7167016!16s%2Fg%2F11xln57c8g' }),
-        logo: fields.image({
-          label: 'Logo',
+        logo: imageField('Logo', {
           directory: 'public/images',
           publicPath: '/images/',
+          description: 'Upload the studio logo',
         }),
         teamUpBaseUrl: fields.text({ label: 'TeamUp base URL', defaultValue: 'https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/' }),
       },

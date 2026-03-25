@@ -32,7 +32,7 @@ function ProgramCard({
         {/* Image — tall portrait crop, object-top to keep heads visible */}
         <div className="relative aspect-[3/4] overflow-hidden">
           <Image
-            src={program.image ?? '/images/placeholder.jpg'}
+            src={program.image?.src ?? '/images/placeholder.jpg'}
             alt={program.imageAlt}
             fill
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"

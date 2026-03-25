@@ -17,7 +17,8 @@ function CoachCard({ coach, index }: { coach: CoachData; index: number }) {
   const isTeal = coach.accent === 'apollo-teal'
 
   const displayName = coach.name.includes(' ') ? coach.name : `Coach ${coach.name}`
-  const altText = `${coach.name} — ${coach.role} at Apollo Fitness Studio`
+  const photoSrc = coach.photo?.src ?? '/images/placeholder.jpg'
+  const altText = coach.photo?.alt ?? `${coach.name} — ${coach.role} at Apollo Fitness Studio`
 
   return (
     <motion.div
@@ -31,7 +32,7 @@ function CoachCard({ coach, index }: { coach: CoachData; index: number }) {
       <div className="relative aspect-[3/2] lg:aspect-auto overflow-hidden min-h-[280px] lg:min-h-0 lg:[direction:ltr]">
         <motion.div className="absolute inset-0" style={{ y: imageY }}>
           <Image
-            src={coach.photo ?? '/images/placeholder.jpg'}
+            src={photoSrc}
             alt={altText}
             fill
             className="object-cover object-center"

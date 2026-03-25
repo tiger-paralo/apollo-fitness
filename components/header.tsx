@@ -19,7 +19,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfoData | null }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
-  const logo = siteInfo?.logo ?? '/images/apollo-logo.png'
+  const logoSrc = siteInfo?.logo?.src ?? '/images/apollo-logo.png'
   const whatsappNumber = siteInfo?.whatsappNumber ?? '447521216772'
 
   useEffect(() => {
@@ -89,7 +89,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfoData | null }) {
             {/* Logo */}
             <Link href="#" className="flex items-center relative z-50">
               <Image
-                src={logo}
+                src={logoSrc}
                 alt={siteInfo?.studioName ?? 'Apollo Fitness Studio'}
                 width={180}
                 height={102}

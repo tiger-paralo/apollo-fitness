@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import StaggeredText from '@/components/react-bits/staggered-text'
 import { MagneticButton } from '@/components/react-bits/magnetic-button'
-import type { HeroData } from '@/lib/content'
+import type { HeroData, CloudImage } from '@/lib/content'
 
 function LazyVimeoVideo({ vimeoUrl }: { vimeoUrl: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -45,6 +45,7 @@ function LazyVimeoVideo({ vimeoUrl }: { vimeoUrl: string }) {
 }
 
 // Fallback data matching original hardcoded values
+const fallbackImage: CloudImage = { src: '/images/hero-studio.jpg', alt: 'Apollo Fitness Studio', width: null, height: null }
 const fallback: HeroData = {
   eyebrow: "Maidenhead's Boutique Fitness Studio",
   headlineLine1: 'Build Your',
@@ -53,7 +54,7 @@ const fallback: HeroData = {
   subheadline: 'Expert-coached functional fitness. Max 8 per class. No mirrors. No egos. Just progress.',
   ctaPrimary: 'Start Your Free Week',
   ctaSecondary: 'View Programs',
-  heroImage: '/images/hero-studio.jpg',
+  heroImage: fallbackImage,
   vimeoUrl: 'https://player.vimeo.com/video/1101338417?h=cc9df9cc81&background=1&autoplay=1&loop=1&byline=0&title=0&muted=1',
 }
 
@@ -94,8 +95,8 @@ export function Hero({ data }: { data: HeroData | null }) {
           style={{ y: imageY, scale: imageScale }}
         >
           <Image
-            src={d.heroImage ?? '/images/hero-studio.jpg'}
-            alt="Apollo Fitness Studio — Training floor with Concept 2 rowers"
+            src={d.heroImage?.src ?? '/images/hero-studio.jpg'}
+            alt={d.heroImage?.alt ?? 'Apollo Fitness Studio — Training floor with Concept 2 rowers'}
             fill
             className="object-cover object-center"
             priority

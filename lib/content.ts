@@ -3,13 +3,51 @@ import keystaticConfig from '../keystatic.config'
 
 export const reader = createReader(process.cwd(), keystaticConfig)
 
+// ── Image helpers ──
+// Cloud mode returns { src, alt, height, width }
+// Local mode returns a string path or null
+// We normalise everything to a CloudImage shape for components
+
+export interface CloudImage {
+  src: string
+  alt: string
+  width: number | null
+  height: number | null
+}
+
+/**
+ * Normalise whatever the Keystatic reader gives us into CloudImage | null.
+ * Handles: cloudImage objects, plain string paths, null/undefined.
+ */
+function normaliseImage(
+  raw: unknown,
+  fallbackAlt = ''
+): CloudImage | null {
+  if (!raw) return null
+  if (typeof raw === 'string') {
+    // Local mode — just a file path
+    return { src: raw, alt: fallbackAlt, width: null, height: null }
+  }
+  if (typeof raw === 'object' && 'src' in (raw as Record<string, unknown>)) {
+    const obj = raw as { src?: string; alt?: string; width?: number; height?: number }
+    if (!obj.src) return null
+    return {
+      src: obj.src,
+      alt: obj.alt ?? fallbackAlt,
+      width: obj.width ?? null,
+      height: obj.height ?? null,
+    }
+  }
+  return null
+}
+
 // ── Types ──
 
 export interface CoachData {
   name: string
   tagline: string
   role: string
-  photo: string | null
+  photo: CloudImage | null
   accent: 'apollo-teal' | 'apollo-orange'
   bio: string
   stats: Array<{ value: string; label: string }>
@@ -19,7 +57,7 @@ export interface CoachData {
 export interface ProgramData {
   title: string
   id: string
-  image: string | null
+  image: CloudImage | null
   imageAlt: string
   description: string
   accent: string
@@ -34,7 +72,7 @@ export interface HeroData {
   subheadline: string
   ctaPrimary: string
   ctaSecondary: string
-  heroImage: string | null
+  heroImage: CloudImage | null
   vimeoUrl: string
 }
 
@@ -87,13 +125,13 @@ export interface SiteInfoData {
   instagramUrl: string
   instagramHandle: string
   googleMapsUrl: string
-  logo: string | null
+  logo: CloudImage | null
   teamUpBaseUrl: string
 }
 
 export interface GalleryItemData {
   caption: string
-  image: string | null
+  image: CloudImage | null
   order: number
 }
 
@@ -109,7 +147,7 @@ export async function getCoaches(): Promise<CoachData[]> {
         name: data.name,
         tagline: data.tagline,
         role: data.role,
-        photo: data.photo,
+        photo: normaliseImage(data.photo, `${data.name} — coach at Apollo Fitness`),
         accent: data.accent,
         bio: data.bio,
         stats: [...data.stats],
@@ -131,7 +169,7 @@ export async function getPrograms(): Promise<ProgramData[]> {
       return {
         title: data.title,
         id: data.id,
-        image: data.image,
+        image: normaliseImage(data.image, data.imageAlt),
         imageAlt: data.imageAlt,
         description: data.description,
         accent: data.accent,
@@ -147,7 +185,17 @@ export async function getPrograms(): Promise<ProgramData[]> {
 export async function getHero(): Promise<HeroData | null> {
   const data = await reader.singletons.hero.read()
   if (!data) return null
-  return data as HeroData
+  return {
+    eyebrow: data.eyebrow,
+    headlineLine1: data.headlineLine1,
+    headlineLine2Word1: data.headlineLine2Word1,
+    headlineLine2Word2: data.headlineLine2Word2,
+    subheadline: data.subheadline,
+    ctaPrimary: data.ctaPrimary,
+    ctaSecondary: data.ctaSecondary,
+    heroImage: normaliseImage(data.heroImage, 'Apollo Fitness Studio — Training floor'),
+    vimeoUrl: data.vimeoUrl,
+  }
 }
 
 export async function getSchedule(): Promise<ScheduleData | null> {
@@ -188,7 +236,25 @@ export async function getPricing(): Promise<PricingData | null> {
 export async function getSiteInfo(): Promise<SiteInfoData | null> {
   const data = await reader.singletons.siteInfo.read()
   if (!data) return null
-  return data as SiteInfoData
+  return {
+    studioName: data.studioName,
+    tagline: data.tagline,
+    description: data.description,
+    url: data.url,
+    address: {
+      line1: data.address.line1,
+      line2: data.address.line2,
+      line3: data.address.line3,
+    },
+    phone: data.phone,
+    email: data.email,
+    whatsappNumber: data.whatsappNumber,
+    instagramUrl: data.instagramUrl,
+    instagramHandle: data.instagramHandle,
+    googleMapsUrl: data.googleMapsUrl,
+    logo: normaliseImage(data.logo, 'Apollo Fitness Studio logo'),
+    teamUpBaseUrl: data.teamUpBaseUrl,
+  }
 }
 
 export async function getGallery(): Promise<GalleryItemData[]> {
@@ -199,7 +265,7 @@ export async function getGallery(): Promise<GalleryItemData[]> {
       if (!data) return null
       return {
         caption: data.caption,
-        image: data.image,
+        image: normaliseImage(data.image, data.caption),
         order: data.order ?? 0,
       } satisfies GalleryItemData
     })
