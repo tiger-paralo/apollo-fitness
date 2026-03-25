@@ -15,9 +15,10 @@ import { motion, AnimatePresence } from 'motion/react'
  */
 
 export function SplashScreen({ children }: { children: React.ReactNode }) {
+  const isKeystatic = typeof window !== 'undefined' && window.location.pathname.startsWith('/keystatic')
   const hasSeenSplash = typeof window !== 'undefined' && sessionStorage.getItem('apollo_splash_seen') === '1'
-  const [isLoading, setIsLoading] = useState(!hasSeenSplash)
-  const [isVisible, setIsVisible] = useState(!hasSeenSplash)
+  const [isLoading, setIsLoading] = useState(!hasSeenSplash && !isKeystatic)
+  const [isVisible, setIsVisible] = useState(!hasSeenSplash && !isKeystatic)
   const startTime = useRef(Date.now())
 
   useEffect(() => {
