@@ -19,7 +19,7 @@ export function Header({ siteInfo }: { siteInfo: SiteInfoData | null }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
-  const logoSrc = siteInfo?.logo?.src ?? '/images/apollo-logo.png'
+  const logoSrc = siteInfo?.logo ?? '/images/apollo-logo.png'
   const whatsappNumber = siteInfo?.whatsappNumber ?? '447521216772'
 
   useEffect(() => {
