@@ -3,63 +3,7 @@
 import Link from 'next/link'
 import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
-
-interface Tier {
-  name: string
-  price: number
-  period: string
-  description: string
-  features: string[]
-  accent: 'teal' | 'orange' | 'white'
-  popular?: boolean
-  teamUpUrl: string
-}
-
-const tiers: Tier[] = [
-  {
-    name: 'Unlimited',
-    price: 250,
-    period: '/month',
-    description: 'All classes, all day, every day. For the fully committed.',
-    features: [
-      'Unlimited classes per month',
-      'All class types — WOD, S&C, Pilates, Yoga',
-      'Priority booking',
-      'HYROX Thursday sessions included',
-    ],
-    accent: 'orange',
-    popular: true,
-    teamUpUrl: 'https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/',
-  },
-  {
-    name: '6 Week Transformation',
-    price: 300,
-    period: ' one-off',
-    description: '6 weeks to transform your body and build habits that last.',
-    features: [
-      '6-week structured programme',
-      'Nutrition guidance included',
-      'Body composition tracking',
-      'All class types available',
-    ],
-    accent: 'teal',
-    teamUpUrl: 'https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/',
-  },
-  {
-    name: '6 Week Transformation — Split Pay',
-    price: 150,
-    period: ' every 3 weeks',
-    description: 'Same transformation programme, split into two easy payments.',
-    features: [
-      'Same 6-week programme',
-      'Nutrition guidance included',
-      'Body composition tracking',
-      'Flexible payment — 2 × £150',
-    ],
-    accent: 'white',
-    teamUpUrl: 'https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/',
-  },
-]
+import type { PricingData } from '@/lib/content'
 
 const accentStyles = {
   teal: {
@@ -86,9 +30,16 @@ const accentStyles = {
     btn: 'bg-white/10 hover:bg-white/20',
     dot: 'bg-white/60',
   },
+} as const
+
+// Fallback
+const fallbackData: PricingData = {
+  sectionSubtitle: 'No contracts. No joining fees. Cancel anytime. Every membership includes a free trial week.',
+  tiers: [],
 }
 
-export function Pricing() {
+export function Pricing({ data }: { data: PricingData | null }) {
+  const pricing = data ?? fallbackData
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 
@@ -109,13 +60,13 @@ export function Pricing() {
             Simple Pricing
           </h2>
           <p className="text-apollo-muted text-sm max-w-md mx-auto">
-            No contracts. No joining fees. Cancel anytime. Every membership includes a free trial week.
+            {pricing.sectionSubtitle}
           </p>
         </motion.div>
 
         {/* Tier cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-stretch pt-4">
-          {tiers.map((tier, i) => {
+          {pricing.tiers.map((tier, i) => {
             const styles = accentStyles[tier.accent]
             return (
               <motion.div

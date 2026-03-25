@@ -12,6 +12,14 @@ import { Location } from "@/components/location";
 import { Footer } from "@/components/footer";
 import { MobileCTA } from "@/components/mobile-cta";
 import { WhatsAppFloat } from "@/components/whatsapp-float";
+import {
+  getHero,
+  getCoaches,
+  getPrograms,
+  getSchedule,
+  getPricing,
+  getSiteInfo,
+} from "@/lib/content";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
@@ -28,25 +36,34 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage(): ReactNode {
+export default async function HomePage(): Promise<ReactNode> {
+  const [heroData, coaches, programs, scheduleData, pricingData, siteInfo] = await Promise.all([
+    getHero(),
+    getCoaches(),
+    getPrograms(),
+    getSchedule(),
+    getPricing(),
+    getSiteInfo(),
+  ]);
+
   return (
     <>
-      <Header />
+      <Header siteInfo={siteInfo} />
       <main className="flex-1">
-        <Hero />
+        <Hero data={heroData} />
         <WhyDifferent />
-        <InstagramFeed />
+        <InstagramFeed siteInfo={siteInfo} />
         <Marquee />
-        <Programs />
-        <Coaches />
-        <Schedule />
-        <Pricing />
-        <Location />
+        <Programs programs={programs} />
+        <Coaches coaches={coaches} />
+        <Schedule data={scheduleData} />
+        <Pricing data={pricingData} />
+        <Location siteInfo={siteInfo} />
         <TrialForm />
       </main>
-      <Footer />
+      <Footer siteInfo={siteInfo} />
       <MobileCTA />
-      <WhatsAppFloat />
+      <WhatsAppFloat siteInfo={siteInfo} />
     </>
   );
 }

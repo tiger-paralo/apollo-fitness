@@ -3,50 +3,9 @@
 import Image from 'next/image'
 import { useRef } from 'react'
 import { motion, useInView, useScroll, useTransform } from 'motion/react'
+import type { CoachData } from '@/lib/content'
 
-interface CoachStat {
-  value: string
-  label: string
-}
-
-interface Coach {
-  name: string
-  tagline: string
-  role: string
-  image: string
-  alt: string
-  accent: 'apollo-teal' | 'apollo-orange'
-  bio: string
-  stats?: CoachStat[]
-}
-
-const coaches: Coach[] = [
-  {
-    name: 'Alex Poon',
-    tagline: 'The Programmer',
-    role: 'Owner & Head Coach',
-    image: '/images/alex-poon.jpg',
-    alt: 'Alex Poon — Owner & Head Coach at Apollo Fitness Studio',
-    accent: 'apollo-teal',
-    bio: 'Alex is the owner and head coach at Apollo Fitness Studio. With over 7 years in the fitness industry — working as a Personal Trainer, Regional Master Trainer, and Gym Manager within high-end commercial gyms — his expertise lies in small group personal training, strength & conditioning, and functional fitness for all ages.\n\nHe designed and led a successful small group PT programme that rolled out across 50+ UK gym locations. Before stepping into fitness full-time, Alex spent 17 years as a professional street dancer and teacher — movement, body awareness, and performance have always been part of his DNA.',
-    stats: [
-      { value: '7+', label: 'Years in Fitness' },
-      { value: '17', label: 'Years Street Dancing' },
-      { value: '50+', label: 'UK Gym Locations' },
-    ],
-  },
-  {
-    name: 'Alex',
-    tagline: 'The Engine',
-    role: 'Coach',
-    image: '/images/alex-pic.png',
-    alt: 'Coach Alex — The Engine at Apollo Fitness Studio',
-    accent: 'apollo-orange',
-    bio: 'Alex brings the energy and the precision. With a sharp eye for form and a coaching style that pushes you just far enough, Alex makes sure nobody phones it in — and nobody gets left behind. Your biggest cheerleader and your strictest critic, in the best way.',
-  }
-]
-
-function CoachCard({ coach, index }: { coach: Coach; index: number }) {
+function CoachCard({ coach, index }: { coach: CoachData; index: number }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(cardRef, { once: true, margin: '-80px' })
   const { scrollYProgress } = useScroll({
@@ -56,6 +15,9 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
   const imageY = useTransform(scrollYProgress, [0, 1], [15, -15])
   const isReversed = index % 2 !== 0
   const isTeal = coach.accent === 'apollo-teal'
+
+  const displayName = coach.name.includes(' ') ? coach.name : `Coach ${coach.name}`
+  const altText = `${coach.name} — ${coach.role} at Apollo Fitness Studio`
 
   return (
     <motion.div
@@ -69,8 +31,8 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
       <div className="relative aspect-[3/2] lg:aspect-auto overflow-hidden min-h-[280px] lg:min-h-0 lg:[direction:ltr]">
         <motion.div className="absolute inset-0" style={{ y: imageY }}>
           <Image
-            src={coach.image}
-            alt={coach.alt}
+            src={coach.photo ?? '/images/placeholder.jpg'}
+            alt={altText}
             fill
             className="object-cover object-center"
             sizes="(max-width: 768px) 100vw, 50vw"
@@ -106,7 +68,7 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
           transition={{ duration: 0.5, delay: 0.35 }}
         >
-          {coach.name.includes(' ') ? coach.name : `Coach ${coach.name}`}
+          {displayName}
         </motion.h3>
 
         <motion.div
@@ -127,7 +89,7 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
         />
 
         {/* Stats row */}
-        {coach.stats && (
+        {coach.stats.length > 0 && (
           <motion.div
             className="flex gap-5 mb-5"
             initial={{ opacity: 0, y: 20 }}
@@ -164,7 +126,7 @@ function CoachCard({ coach, index }: { coach: Coach; index: number }) {
   )
 }
 
-export function Coaches() {
+export function Coaches({ coaches }: { coaches: CoachData[] }) {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
 

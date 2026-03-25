@@ -1,0 +1,50 @@
+{
+  "sectionSubtitle": "No contracts. No joining fees. Cancel anytime. Every membership includes a free trial week.",
+  "tiers": [
+    {
+      "name": "Unlimited",
+      "price": 250,
+      "period": "/month",
+      "description": "All classes, all day, every day. For the fully committed.",
+      "features": [
+        "Unlimited classes per month",
+        "All class types — WOD, S&C, Pilates, Yoga",
+        "Priority booking",
+        "HYROX Thursday sessions included"
+      ],
+      "accent": "orange",
+      "popular": true,
+      "teamUpUrl": "https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/"
+    },
+    {
+      "name": "6 Week Transformation",
+      "price": 300,
+      "period": " one-off",
+      "description": "6 weeks to transform your body and build habits that last.",
+      "features": [
+        "6-week structured programme",
+        "Nutrition guidance included",
+        "Body composition tracking",
+        "All class types available"
+      ],
+      "accent": "teal",
+      "popular": false,
+      "teamUpUrl": "https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/"
+    },
+    {
+      "name": "6 Week Transformation — Split Pay",
+      "price": 150,
+      "period": " every 3 weeks",
+      "description": "Same transformation programme, split into two easy payments.",
+      "features": [
+        "Same 6-week programme",
+        "Nutrition guidance included",
+        "Body composition tracking",
+        "Flexible payment — 2 × £150"
+      ],
+      "accent": "white",
+      "popular": false,
+      "teamUpUrl": "https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/"
+    }
+  ]
+}

@@ -3,39 +3,13 @@
 import Image from 'next/image'
 import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
-
-const programs = [
-  {
-    id: '01',
-    title: 'WODs',
-    image: '/images/outdoor-training.jpg',
-    alt: 'High-energy WOD session at Apollo Fitness — outdoor group training',
-    description: 'Daily workouts engineered to challenge your strength, endurance, and grit. Scalable for every level. Hyrox-specific sessions every Thursday.',
-    accent: 'from-apollo-teal/20',
-  },
-  {
-    id: '02',
-    title: 'Strength & Conditioning',
-    image: '/images/cable-crossover.jpg',
-    alt: 'Cable crossover strength training at Apollo Fitness',
-    description: 'Small group personal training that builds functional strength and real-world performance.',
-    accent: 'from-apollo-orange/20',
-  },
-  {
-    id: '03',
-    title: 'Personal Training',
-    image: '/images/coaching-squat.jpg',
-    alt: 'One-on-one personal training at Apollo Fitness',
-    description: "One-on-one sessions tailored entirely to your goals. Whether you're rehabbing, competing, or starting fresh.",
-    accent: 'from-apollo-teal/20',
-  },
-]
+import type { ProgramData } from '@/lib/content'
 
 function ProgramCard({
   program,
   index,
 }: {
-  program: (typeof programs)[0]
+  program: ProgramData
   index: number
 }) {
   const cardRef = useRef<HTMLDivElement>(null)
@@ -58,8 +32,8 @@ function ProgramCard({
         {/* Image — tall portrait crop, object-top to keep heads visible */}
         <div className="relative aspect-[3/4] overflow-hidden">
           <Image
-            src={program.image}
-            alt={program.alt}
+            src={program.image ?? '/images/placeholder.jpg'}
+            alt={program.imageAlt}
             fill
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 33vw"
@@ -109,7 +83,7 @@ function ProgramCard({
   )
 }
 
-export function Programs() {
+export function Programs({ programs }: { programs: ProgramData[] }) {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' })
 

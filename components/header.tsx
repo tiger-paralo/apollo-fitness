@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion } from 'motion/react'
+import type { SiteInfoData } from '@/lib/content'
 
 const scrollToTrial = () => {
   const t = document.getElementById('trial')
@@ -13,10 +14,13 @@ const scrollToTrial = () => {
   }
 }
 
-export function Header() {
+export function Header({ siteInfo }: { siteInfo: SiteInfoData | null }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
+
+  const logo = siteInfo?.logo ?? '/images/apollo-logo.png'
+  const whatsappNumber = siteInfo?.whatsappNumber ?? '447521216772'
 
   useEffect(() => {
     const handleScroll = () => {
@@ -85,8 +89,8 @@ export function Header() {
             {/* Logo */}
             <Link href="#" className="flex items-center relative z-50">
               <Image
-                src="/images/apollo-logo.png"
-                alt="Apollo Fitness Studio"
+                src={logo}
+                alt={siteInfo?.studioName ?? 'Apollo Fitness Studio'}
                 width={180}
                 height={102}
                 className="h-9 w-auto md:h-11"
@@ -185,7 +189,7 @@ export function Header() {
         {/* Bottom contact line */}
         <div className="pb-10 pt-4 text-center">
           <a
-            href="https://wa.me/447521216772"
+            href={`https://wa.me/${whatsappNumber}`}
             target="_blank"
             rel="noopener noreferrer"
             className="text-xs font-display tracking-wider uppercase text-apollo-muted"

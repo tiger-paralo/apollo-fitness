@@ -2,9 +2,7 @@
 
 import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
-
-const GOOGLE_MAPS_URL =
-  'https://www.google.com/maps/place/Apollo+Fitness+Studio/@51.5132968,-0.7167016,17z/data=!4m6!3m5!1s0x48767d123b6dee05:0x99dbc9d0a38dc59b!8m2!3d51.5132968!4d-0.7167016!16s%2Fg%2F11xln57c8g'
+import type { SiteInfoData } from '@/lib/content'
 
 const DIRECTIONS = [
   { step: '1', text: 'Head to Padel Maidenhead on Braywick Road (opposite Braywick Park)' },
@@ -12,9 +10,13 @@ const DIRECTIONS = [
   { step: '3', text: 'Apollo Fitness Studio is inside — you\'ll see us immediately' },
 ]
 
-export function Location() {
+export function Location({ siteInfo }: { siteInfo: SiteInfoData | null }) {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
+
+  const googleMapsUrl = siteInfo?.googleMapsUrl ?? 'https://www.google.com/maps/place/Apollo+Fitness+Studio/@51.5132968,-0.7167016,17z/data=!4m6!3m5!1s0x48767d123b6dee05:0x99dbc9d0a38dc59b!8m2!3d51.5132968!4d-0.7167016!16s%2Fg%2F11xln57c8g'
+  const name = siteInfo?.studioName ?? 'Apollo Fitness Studio'
+  const address = siteInfo?.address ?? { line1: 'Inside Padel Maidenhead', line2: 'Braywick Road', line3: 'Maidenhead SL6 1BN' }
 
   return (
     <section
@@ -46,14 +48,14 @@ export function Location() {
             Find Us
           </p>
           <h2 className="font-display font-bold text-heading-lg uppercase">
-            Inside Padel Maidenhead
+            {address.line1}
           </h2>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Interactive map card */}
           <motion.a
-            href={GOOGLE_MAPS_URL}
+            href={googleMapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group relative block overflow-hidden bg-apollo-card border border-white/5 hover:border-apollo-teal/20 transition-all duration-500"
@@ -144,11 +146,11 @@ export function Location() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="font-display font-bold text-lg uppercase mb-1">Apollo Fitness Studio</h3>
+                  <h3 className="font-display font-bold text-lg uppercase mb-1">{name}</h3>
                   <p className="text-apollo-muted text-sm leading-relaxed">
-                    Inside Padel Maidenhead<br />
-                    Braywick Road<br />
-                    Maidenhead SL6 1BN
+                    {address.line1}<br />
+                    {address.line2}<br />
+                    {address.line3}
                   </p>
                 </div>
               </div>
@@ -185,7 +187,7 @@ export function Location() {
 
             {/* CTA */}
             <motion.a
-              href={GOOGLE_MAPS_URL}
+              href={googleMapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 bg-apollo-teal/10 hover:bg-apollo-teal/20 text-apollo-teal border border-apollo-teal/20 px-6 py-3.5 font-display font-medium text-sm uppercase tracking-wider transition-all duration-300"

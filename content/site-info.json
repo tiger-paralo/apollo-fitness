@@ -1,0 +1,19 @@
+{
+  "studioName": "Apollo Fitness Studio",
+  "tagline": "Your Strength, Our Focus.",
+  "description": "Apollo Fitness Studio in Maidenhead offers expert-led strength & conditioning sessions, WODs, and yoga classes. No mirrors. No egos. Just progress.",
+  "url": "https://apollofitnessstudio.com",
+  "address": {
+    "line1": "Inside Padel Maidenhead",
+    "line2": "Braywick Road",
+    "line3": "Maidenhead SL6 1BN"
+  },
+  "phone": "",
+  "email": "apollofitnessstudio@gmail.com",
+  "whatsappNumber": "447521216772",
+  "instagramUrl": "https://www.instagram.com/apollofitnessstudio",
+  "instagramHandle": "@apollofitnessstudio",
+  "googleMapsUrl": "https://www.google.com/maps/place/Apollo+Fitness+Studio/@51.5132968,-0.7167016,17z/data=!4m6!3m5!1s0x48767d123b6dee05:0x99dbc9d0a38dc59b!8m2!3d51.5132968!4d-0.7167016!16s%2Fg%2F11xln57c8g",
+  "logo": "/images/apollo-logo.png",
+  "teamUpBaseUrl": "https://goteamup.com/w10418345/p/10418345-apollo-fitness-studio/memberships/"
+}

@@ -6,8 +6,9 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, useScroll, useTransform } from 'motion/react'
 import StaggeredText from '@/components/react-bits/staggered-text'
 import { MagneticButton } from '@/components/react-bits/magnetic-button'
+import type { HeroData } from '@/lib/content'
 
-function LazyVimeoVideo() {
+function LazyVimeoVideo({ vimeoUrl }: { vimeoUrl: string }) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [shouldLoad, setShouldLoad] = useState(false)
 
@@ -30,7 +31,7 @@ function LazyVimeoVideo() {
     <div ref={containerRef} className="absolute inset-0">
       {shouldLoad && (
         <iframe
-          src="https://player.vimeo.com/video/1101338417?h=cc9df9cc81&background=1&autoplay=1&loop=1&byline=0&title=0&muted=1"
+          src={vimeoUrl}
           frameBorder="0"
           allow="autoplay; fullscreen"
           allowFullScreen
@@ -43,7 +44,21 @@ function LazyVimeoVideo() {
   )
 }
 
-export function Hero() {
+// Fallback data matching original hardcoded values
+const fallback: HeroData = {
+  eyebrow: "Maidenhead's Boutique Fitness Studio",
+  headlineLine1: 'Build Your',
+  headlineLine2Word1: 'Strongest',
+  headlineLine2Word2: 'Self',
+  subheadline: 'Expert-coached functional fitness. Max 8 per class. No mirrors. No egos. Just progress.',
+  ctaPrimary: 'Start Your Free Week',
+  ctaSecondary: 'View Programs',
+  heroImage: '/images/hero-studio.jpg',
+  vimeoUrl: 'https://player.vimeo.com/video/1101338417?h=cc9df9cc81&background=1&autoplay=1&loop=1&byline=0&title=0&muted=1',
+}
+
+export function Hero({ data }: { data: HeroData | null }) {
+  const d = data ?? fallback
   const sectionRef = useRef<HTMLElement>(null)
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -69,7 +84,7 @@ export function Hero() {
         <div className="absolute inset-0 z-10 bg-gradient-to-b from-apollo-black/40 via-apollo-black/60 to-apollo-black/95" />
         {/* Extra top gradient for logo/nav contrast against bright video frames */}
         <div className="absolute inset-x-0 top-0 h-32 z-10 bg-gradient-to-b from-apollo-black/80 to-transparent" />
-        <LazyVimeoVideo />
+        <LazyVimeoVideo vimeoUrl={d.vimeoUrl} />
       </div>
 
       {/* Image Background — Desktop only with parallax */}
@@ -79,7 +94,7 @@ export function Hero() {
           style={{ y: imageY, scale: imageScale }}
         >
           <Image
-            src="/images/hero-studio.jpg"
+            src={d.heroImage ?? '/images/hero-studio.jpg'}
             alt="Apollo Fitness Studio — Training floor with Concept 2 rowers"
             fill
             className="object-cover object-center"
@@ -122,14 +137,14 @@ export function Hero() {
           >
             <div className="w-8 h-px bg-apollo-teal" />
             <span className="font-display font-medium text-xs tracking-widest uppercase text-apollo-teal">
-              Maidenhead&apos;s Boutique Fitness Studio
+              {d.eyebrow}
             </span>
           </motion.div>
 
           {/* Main Headline — StaggeredText */}
           <h1 className="font-display font-bold text-hero uppercase leading-[1.05] tracking-tight mb-6">
             <StaggeredText
-              text="Build Your"
+              text={d.headlineLine1}
               as="span"
               className="block"
               segmentBy="words"
@@ -141,7 +156,7 @@ export function Hero() {
             />
             <span className="block">
               <StaggeredText
-                text="Strongest"
+                text={d.headlineLine2Word1}
                 as="span"
                 className="text-apollo-orange"
                 segmentBy="words"
@@ -153,7 +168,7 @@ export function Hero() {
               />
               {' '}
               <StaggeredText
-                text="Self"
+                text={d.headlineLine2Word2}
                 as="span"
                 className=""
                 segmentBy="words"
@@ -173,7 +188,7 @@ export function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.8 }}
           >
-            Expert-coached functional fitness. Max 8 per class. No mirrors. No egos. Just progress.
+            {d.subheadline}
           </motion.p>
 
           {/* CTA Buttons */}
@@ -188,7 +203,7 @@ export function Hero() {
                 href="#trial" onClick={(e) => { e.preventDefault(); (() => { const t = document.getElementById('trial'); if (t) { const y = t.getBoundingClientRect().top + window.scrollY - 70; window.scrollTo({ top: y, behavior: 'smooth' }); } })() }}
                 className="group relative inline-flex items-center justify-center px-10 py-4 bg-apollo-orange text-apollo-text font-display font-bold text-sm tracking-wide uppercase border-none cursor-pointer overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-apollo-orange/40"
               >
-                <span className="relative z-10">Start Your Free Week</span>
+                <span className="relative z-10">{d.ctaPrimary}</span>
                 <div className="absolute inset-0 bg-apollo-orange-hover translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </Link>
             </MagneticButton>
@@ -197,7 +212,7 @@ export function Hero() {
                 onClick={scrollToTrial}
                 className="group relative inline-flex items-center justify-center px-10 py-4 bg-transparent text-apollo-text font-display font-bold text-sm tracking-wide uppercase border border-white/20 cursor-pointer overflow-hidden transition-all duration-300 hover:border-white/40"
               >
-                <span className="relative z-10">View Programs</span>
+                <span className="relative z-10">{d.ctaSecondary}</span>
                 <div className="absolute inset-0 bg-white/5 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               </button>
             </MagneticButton>

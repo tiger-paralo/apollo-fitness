@@ -3,89 +3,9 @@
 import Link from 'next/link'
 import { useState, useRef, useMemo } from 'react'
 import { motion, useInView, AnimatePresence } from 'motion/react'
+import type { ScheduleData } from '@/lib/content'
 
 type ClassType = 'WOD' | 'S&C' | 'Pilates' | 'Yoga'
-
-interface ScheduleClass {
-  time: string
-  type: ClassType
-  note?: string
-}
-
-interface DaySchedule {
-  day: string
-  shortDay: string
-  subtitle?: string
-  classes: ScheduleClass[]
-}
-
-const schedule: DaySchedule[] = [
-  {
-    day: 'Monday',
-    shortDay: 'MON',
-    classes: [
-      { time: '7:15', type: 'WOD' },
-      { time: '8:15', type: 'WOD' },
-      { time: '9:30', type: 'S&C' },
-      { time: '11:00', type: 'Pilates' },
-      { time: '5:30 PM', type: 'S&C' },
-      { time: '6:45 PM', type: 'WOD' },
-    ]
-  },
-  {
-    day: 'Tuesday',
-    shortDay: 'TUE',
-    classes: [
-      { time: '7:15', type: 'WOD' },
-      { time: '8:15', type: 'WOD' },
-      { time: '9:30', type: 'S&C' },
-      { time: '5:30 PM', type: 'S&C' },
-      { time: '6:35 PM', type: 'WOD' },
-      { time: '7:30 PM', type: 'Pilates' },
-    ]
-  },
-  {
-    day: 'Wednesday',
-    shortDay: 'WED',
-    classes: [
-      { time: '7:15', type: 'WOD' },
-      { time: '8:15', type: 'WOD' },
-      { time: '9:30', type: 'S&C' },
-      { time: '5:30 PM', type: 'S&C' },
-      { time: '6:45 PM', type: 'WOD' },
-    ]
-  },
-  {
-    day: 'Thursday',
-    shortDay: 'THU',
-    subtitle: 'HYROX DAY',
-    classes: [
-      { time: '7:15', type: 'WOD' },
-      { time: '8:15', type: 'WOD' },
-      { time: '9:30', type: 'S&C' },
-      { time: '5:30 PM', type: 'S&C' },
-      { time: '6:35 PM', type: 'WOD' },
-      { time: '7:30 PM', type: 'Yoga' },
-    ]
-  },
-  {
-    day: 'Friday',
-    shortDay: 'FRI',
-    classes: [
-      { time: '7:15', type: 'WOD' },
-      { time: '8:15', type: 'WOD' },
-      { time: '9:30', type: 'S&C' },
-      { time: '5:30 PM', type: 'WOD' },
-    ]
-  },
-  {
-    day: 'Saturday',
-    shortDay: 'SAT',
-    classes: [
-      { time: '9:30', type: 'WOD', note: 'Team Workout!' },
-    ]
-  },
-]
 
 const classTypeConfig: Record<ClassType, { bg: string; text: string; dot: string; border: string }> = {
   'WOD': { bg: 'bg-apollo-orange/15', text: 'text-apollo-orange', dot: 'bg-apollo-orange', border: 'border-apollo-orange/30' },
@@ -96,13 +16,23 @@ const classTypeConfig: Record<ClassType, { bg: string; text: string; dot: string
 
 const allTypes: ClassType[] = ['WOD', 'S&C', 'Pilates', 'Yoga']
 
+function isClassType(t: string): t is ClassType {
+  return allTypes.includes(t as ClassType)
+}
+
 function getTodayIndex(): number {
   const day = new Date().getDay()
   if (day === 0) return -1
   return day - 1
 }
 
-export function Schedule() {
+// Fallback schedule
+const fallbackDays = [
+  { day: 'Monday', shortDay: 'MON', subtitle: '', classes: [{ time: '7:15', type: 'WOD', note: '' }] },
+]
+
+export function Schedule({ data }: { data: ScheduleData | null }) {
+  const schedule = data?.days ?? fallbackDays
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-60px' })
   const todayIndex = getTodayIndex()
@@ -114,7 +44,7 @@ export function Schedule() {
     const classes = schedule[selectedDay]?.classes ?? []
     if (!activeFilter) return classes
     return classes.filter(c => c.type === activeFilter)
-  }, [selectedDay, activeFilter])
+  }, [selectedDay, activeFilter, schedule])
 
   const selectedSchedule = schedule[selectedDay]
 
@@ -212,7 +142,8 @@ export function Schedule() {
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               <AnimatePresence mode="popLayout">
                 {currentClasses.map((cls, i) => {
-                  const config = classTypeConfig[cls.type]
+                  const typeKey = isClassType(cls.type) ? cls.type : 'WOD'
+                  const config = classTypeConfig[typeKey]
                   return (
                     <motion.div
                       key={`${selectedDay}-${cls.time}-${cls.type}-${activeFilter}`}
@@ -244,7 +175,7 @@ export function Schedule() {
 
             {currentClasses.length === 0 && (
               <div className="flex items-center justify-center py-8 text-apollo-muted text-sm">
-                {activeFilter ? `No ${activeFilter} classes on ${schedule[selectedDay]?.day}.` : 'No classes scheduled.'}
+                {activeFilter ? `No ${activeFilter} classes on ${schedule[selectedDay]?.day ?? 'this day'}.` : 'No classes scheduled.'}
               </div>
             )}
           </div>

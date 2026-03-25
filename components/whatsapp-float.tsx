@@ -1,11 +1,14 @@
 'use client'
 
 import Link from 'next/link'
+import type { SiteInfoData } from '@/lib/content'
 
-export function WhatsAppFloat() {
+export function WhatsAppFloat({ siteInfo }: { siteInfo: SiteInfoData | null }) {
+  const whatsappNumber = siteInfo?.whatsappNumber ?? '447521216772'
+
   return (
     <Link
-      href="https://wa.me/447521216772"
+      href={`https://wa.me/${whatsappNumber}`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"

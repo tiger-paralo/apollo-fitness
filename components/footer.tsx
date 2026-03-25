@@ -3,10 +3,16 @@
 import Link from 'next/link'
 import { useRef } from 'react'
 import { motion, useInView } from 'motion/react'
+import type { SiteInfoData } from '@/lib/content'
 
-export function Footer() {
+export function Footer({ siteInfo }: { siteInfo: SiteInfoData | null }) {
   const ref = useRef<HTMLElement>(null)
   const isInView = useInView(ref, { once: true, margin: '-50px' })
+
+  const name = siteInfo?.studioName ?? 'Apollo Fitness Studio'
+  const email = siteInfo?.email ?? 'apollofitnessstudio@gmail.com'
+  const instagramUrl = siteInfo?.instagramUrl ?? 'https://www.instagram.com/apollofitnessstudio'
+  const address = siteInfo?.address ?? { line1: 'Inside Padel Maidenhead', line2: 'Braywick Road', line3: 'Maidenhead SL6 1BN' }
 
   return (
     <footer
@@ -25,10 +31,10 @@ export function Footer() {
             transition={{ duration: 0.5 }}
           >
             <h3 className="font-display font-bold text-2xl uppercase mb-3">
-              Apollo Fitness Studio
+              {name}
             </h3>
             <p className="text-apollo-muted text-sm leading-relaxed max-w-sm">
-              Functional fitness, expert coaching, and a community that gives a damn. Inside Padel Maidenhead, Braywick Road.
+              Functional fitness, expert coaching, and a community that gives a damn. {address.line1}, {address.line2}.
             </p>
           </motion.div>
 
@@ -42,9 +48,9 @@ export function Footer() {
               Find Us
             </h4>
             <ul className="space-y-2">
-              <li className="text-sm text-apollo-muted">Inside Padel Maidenhead</li>
-              <li className="text-sm text-apollo-muted">Braywick Road</li>
-              <li className="text-sm text-apollo-muted">Maidenhead SL6 1BN</li>
+              <li className="text-sm text-apollo-muted">{address.line1}</li>
+              <li className="text-sm text-apollo-muted">{address.line2}</li>
+              <li className="text-sm text-apollo-muted">{address.line3}</li>
             </ul>
           </motion.div>
 
@@ -60,15 +66,15 @@ export function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="mailto:apollofitnessstudio@gmail.com"
+                  href={`mailto:${email}`}
                   className="text-sm text-apollo-muted hover:text-apollo-text transition-colors duration-300"
                 >
-                  apollofitnessstudio@gmail.com
+                  {email}
                 </Link>
               </li>
               <li>
                 <Link
-                  href="https://www.instagram.com/apollofitnessstudio"
+                  href={instagramUrl}
                   target="_blank"
                   rel="noopener"
                   className="text-sm text-apollo-muted hover:text-apollo-text transition-colors duration-300"
@@ -83,16 +89,16 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-white/5 pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           <p className="text-xs text-apollo-subtle">
-            &copy; 2026 Apollo Fitness Studio. All rights reserved.
+            &copy; 2026 {name}. All rights reserved.
           </p>
 
           {/* Social Icons */}
           <div className="flex gap-5">
             <Link
-              href="https://www.instagram.com/apollofitnessstudio"
+              href={instagramUrl}
               target="_blank"
               rel="noopener"
-              aria-label="Apollo Fitness on Instagram"
+              aria-label={`${name} on Instagram`}
               className="text-apollo-muted hover:text-apollo-orange transition-colors duration-300"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -102,8 +108,8 @@ export function Footer() {
               </svg>
             </Link>
             <Link
-              href="mailto:apollofitnessstudio@gmail.com"
-              aria-label="Email Apollo Fitness"
+              href={`mailto:${email}`}
+              aria-label={`Email ${name}`}
               className="text-apollo-muted hover:text-apollo-orange transition-colors duration-300"
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -117,7 +123,7 @@ export function Footer() {
 
       {/* Bottom bar */}
       <div className="mt-8 pt-4 border-t border-white/5 flex justify-between items-center text-[11px] text-apollo-muted/50 max-w-6xl mx-auto px-6">
-        <span>© {new Date().getFullYear()} Apollo Fitness Studio</span>
+        <span>© {new Date().getFullYear()} {name}</span>
         <Link href="/privacy-policy" className="hover:text-apollo-muted transition-colors">
           Privacy Policy
         </Link>

@@ -1,0 +1,9 @@
+{
+  "title": "WODs",
+  "id": "01",
+  "image": "/images/outdoor-training.jpg",
+  "imageAlt": "High-energy WOD session at Apollo Fitness — outdoor group training",
+  "description": "Daily workouts engineered to challenge your strength, endurance, and grit. Scalable for every level. Hyrox-specific sessions every Thursday.",
+  "accent": "from-apollo-teal/20",
+  "order": 0
+}
