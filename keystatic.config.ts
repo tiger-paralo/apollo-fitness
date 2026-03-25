@@ -1,10 +1,17 @@
 import { config, fields, collection, singleton } from '@keystatic/core'
 
 // ── Storage mode ──
-// Local storage — content lives in the repo as JSON files
-// For production: deploy via git push (content changes = code changes)
+// Cloud storage for production (Keystatic Cloud handles GitHub auth)
+// Falls back to local in dev
+const isProduction = process.env.NODE_ENV === 'production'
+
 export default config({
-  storage: { kind: 'local' as const },
+  storage: isProduction
+    ? { kind: 'cloud' }
+    : { kind: 'local' },
+  cloud: {
+    project: 'apollo-fitness/apollo-fitness',
+  },
   ui: {
     brand: {
       name: 'Apollo Fitness CMS',
