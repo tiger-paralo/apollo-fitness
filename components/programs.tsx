@@ -33,7 +33,7 @@ function ProgramCard({
         <div className="relative aspect-[3/4] overflow-hidden">
           <Image
             src={program.image ?? '/images/placeholder.jpg'}
-            alt={program.imageAlt}
+            alt={program.imageAlt ?? program.title}
             fill
             className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, 33vw"

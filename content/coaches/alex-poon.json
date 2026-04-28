@@ -1,7 +1,14 @@
 {
   "name": "Alex Poon",
+  "tagline": "The Programmer",
   "role": "Owner & Head Coach",
+  "photo": "/images/alex-poon.jpg",
   "accent": "apollo-teal",
-  "stats": [],
+  "bio": "Alex is the owner and head coach at Apollo Fitness Studio. With over 7 years in the fitness industry — working as a Personal Trainer, Regional Master Trainer, and Gym Manager within high-end commercial gyms — his expertise lies in small group personal training, strength & conditioning, and functional fitness for all ages.\n\nHe designed and led a successful small group PT programme that rolled out across 50+ UK gym locations. Before stepping into fitness full-time, Alex spent 17 years as a professional street dancer and teacher — movement, body awareness, and performance have always been part of his DNA.",
+  "stats": [
+    { "value": "7+", "label": "Years in Fitness" },
+    { "value": "17", "label": "Years Street Dancing" },
+    { "value": "50+", "label": "UK Gym Locations" }
+  ],
   "order": 0
 }

@@ -20,7 +20,7 @@ export interface ProgramData {
   title: string
   id: string
   image: string | null
-  imageAlt: string
+  imageAlt: string | null
   description: string
   accent: string
   order: number
@@ -132,11 +132,11 @@ export async function getPrograms(): Promise<ProgramData[]> {
         title: data.title,
         id: data.id,
         image: data.image,
-        imageAlt: data.imageAlt,
+        imageAlt: data.imageAlt ?? '',
         description: data.description,
         accent: data.accent,
         order: data.order ?? 0,
-      } satisfies ProgramData
+      } as ProgramData
     })
   )
   return entries
@@ -180,7 +180,7 @@ export async function getPricing(): Promise<PricingData | null> {
       features: t.features ?? [],
       accent: t.accent as 'teal' | 'orange' | 'white',
       popular: t.popular ?? false,
-      teamUpUrl: t.teamUpUrl,
+      teamUpUrl: t.teamUpUrl ?? '',
     })),
   }
 }
