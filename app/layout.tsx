@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Oswald, Bebas_Neue } from "next/font/google";
 import type { ReactNode } from "react";
+import { Analytics } from "@vercel/analytics/next";
 import { SplashScreen } from "@/components/splash-screen";
 import "./globals.css";
 
@@ -68,6 +69,7 @@ export default function RootLayout({
         className={`${inter.variable} ${oswald.variable} ${bebasNeue.variable} min-h-screen bg-apollo-black font-sans text-apollo-text antialiased overflow-x-hidden`}
       >
         <SplashScreen>{children}</SplashScreen>
+        <Analytics />
       </body>
     </html>
   );
