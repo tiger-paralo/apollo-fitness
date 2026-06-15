@@ -25,26 +25,36 @@ import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "Apollo Fitness Studio — Your Strength, Our Focus",
-  description: "Expert-led functional fitness in Maidenhead. Max 8 per class. No mirrors. No egos. Just progress. First week free.",
-  keywords: ["fitness", "gym", "maidenhead", "functional fitness", "strength training", "personal training"],
+  description:
+    "Expert-led functional fitness in Maidenhead. Max 8 per class. No mirrors. No egos. Just progress. First week free.",
+  keywords: [
+    "fitness",
+    "gym",
+    "maidenhead",
+    "functional fitness",
+    "strength training",
+    "personal training",
+  ],
   authors: [{ name: "Apollo Fitness Studio" }],
   openGraph: {
     title: "Apollo Fitness Studio — Your Strength, Our Focus",
-    description: "Expert-led functional fitness in Maidenhead. Max 8 per class. No mirrors. No egos. Just progress. First week free.",
+    description:
+      "Expert-led functional fitness in Maidenhead. Max 8 per class. No mirrors. No egos. Just progress. First week free.",
     type: "website",
     locale: "en_GB",
   },
 };
 
 export default async function HomePage(): Promise<ReactNode> {
-  const [heroData, coaches, programs, scheduleData, pricingData, siteInfo] = await Promise.all([
-    getHero(),
-    getCoaches(),
-    getPrograms(),
-    getSchedule(),
-    getPricing(),
-    getSiteInfo(),
-  ]);
+  const [heroData, coaches, programs, scheduleData, pricingData, siteInfo] =
+    await Promise.all([
+      getHero(),
+      getCoaches(),
+      getPrograms(),
+      getSchedule(),
+      getPricing(),
+      getSiteInfo(),
+    ]);
 
   return (
     <>
@@ -59,7 +69,7 @@ export default async function HomePage(): Promise<ReactNode> {
         <Schedule data={scheduleData} />
         <Pricing data={pricingData} />
         <Location siteInfo={siteInfo} />
-        <TrialForm />
+        <TrialForm siteInfo={siteInfo} />
       </main>
       <Footer siteInfo={siteInfo} />
       <MobileCTA />
